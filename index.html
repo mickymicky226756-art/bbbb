@@ -199,8 +199,45 @@
             color: #f44336;
             margin: 0;
         }
+        
+        /* NEW ADMIN NAVIGATION TABS */
+        .admin-nav-tabs {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 0px;
+        }
+        .admin-nav-tabs button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #eee;
+            color: #555;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        .admin-nav-tabs button.admin-nav-active {
+            background-color: #387c38;
+            color: white;
+        }
+        .admin-page-content {
+            display: none;
+            animation: fadeIn 0.5s;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            background-color: #fff;
+        }
+        .admin-page-content.active {
+            display: block;
+        }
+        
+        /* Admin Transaction List Style (within admin-page-content) */
         .admin-transaction-list {
-            margin-top: 20px;
+            margin-top: 0px; 
             text-align: left;
         }
         .admin-transaction-item {
@@ -258,18 +295,65 @@
             background-color: #333;
         }
         
-        /* Bottom Navigation Bar Style (አልተነካም) */
+        /* NEW Investment List Style */
+        .admin-investment-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #fcfcfc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-investment-info p {
+            margin: 2px 0;
+            font-size: 14px;
+        }
+        .end-investment-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .end-investment-btn:hover {
+            background-color: #d32f2f;
+        }
+        /* NEW: Resume Button Style */
+        .resume-investment-btn {
+            background-color: #4CAF50; /* Green color */
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .resume-investment-btn:hover {
+            background-color: #387c38;
+        }
+
+        .investment-ended {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        /* Bottom Navigation Bar Style (የማይንቀሳቀስ እንዲሆን ተቀይሯል) */
         .bottom-navbar {
             display: flex;
             justify-content: space-around;
             align-items: center;
             background-color: #1e5a2c; 
             padding: 10px 0;
-            position: absolute;
+            position: fixed; /* ቀይረናል: absolute -> fixed */
             bottom: 0;
-            left: 0;
-            right: 0;
+            left: 50%; /* ጨምረናል: ለመሃል ማምጣት */
+            transform: translateX(-50%); /* ጨምረናል: ለመሃል ማምጣት */
             width: 100%;
+            max-width: 1000px; /* ጨምረናል: የ Dashboard ስፋት እንዲይዝ */
             border-bottom-left-radius: 15px;
             border-bottom-right-radius: 15px;
             box-sizing: border-box;
@@ -309,6 +393,7 @@
         }
         #nav-home::before { content: '🏠'; }
         #nav-investment::before { content: '📈'; }
+        #nav-customer-service::before { content: '📞'; } /* <--- አዲስ የተጨመረ */
         #nav-account::before { content: '👤'; }
         #nav-team::before { content: '👥'; }
         
@@ -341,7 +426,8 @@
         /* Home Page Cards and Buttons */
         .stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            /* 3 ካርዶችን በአንድ ረድፍ ወይም ትንሽ ከሆነ በአንድ ረድፍ ላይ እንዲያሳይ ተቀይሯል */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -352,7 +438,15 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
         .balance-card { background-color: #e8f5e9; border: 1px solid #c8e6c9; }
-        .profit-card { background-color: #fff3e0; border: 1px solid #ffe0b2; }
+        
+        /* *** NEW DAILY PROFIT CARD STYLE *** */
+        .daily-profit-card { 
+            background-color: #e3f2fd; 
+            border: 1px solid #b3e5fc;
+        }
+        
+        .total-invested-card { background-color: #fff3e0; border: 1px solid #ffe0b2; } /* Old .profit-card renamed for clarity */
+        
         .info-card h2 { color: #555; font-size: 18px; margin-top: 0; margin-bottom: 5px; }
         .amount-display { font-size: 38px; font-weight: 900; color: #1e5a2c; margin: 0; }
         .profit-amount-display { color: #ff9800; }
@@ -394,8 +488,8 @@
             color: white; 
         }
 
-        #customer-service-btn { background-color: #008CBA; }
-        #customer-service-btn:hover { background-color: #007bb5; }
+        /* #customer-service-btn { background-color: #008CBA; } */ /* REMOVED */
+        /* #customer-service-btn:hover { background-color: #007bb5; } */ /* REMOVED */
         #transaction-history-btn { background-color: #FF9800; }
         #transaction-history-btn:hover { background-color: #e68900; }
         #change-password-btn { background-color: #387c38; }
@@ -534,7 +628,14 @@
                         <p class="amount-display">ETB <span id="current-balance">0.00</span></p> 
                         <small style="color: #00796b;">ይህ 50 ETB የእርስዎ የመመዝገቢያ ቦነስ ነው።</small>
                     </div>
-                    <div class="info-card profit-card">
+                    
+                    <div class="info-card daily-profit-card">
+                        <h2>ዕለታዊ ትርፍ / Daily Profit</h2>
+                        <p class="amount-display profit-amount-display">ETB <span id="daily-profit-display">0.00</span></p>
+                        <small style="color: #387c38;">ከነቃ ኢንቨስትመንት የሚገኝ ከፍተኛ ዕለታዊ ትርፍ</small>
+                    </div>
+                    
+                    <div class="info-card total-invested-card">
                         <h2>ጠቅላላ የኢንቨስትመንት መጠን</h2>
                         <p class="amount-display profit-amount-display">ETB <span id="total-invested-amount">0.00</span></p>
                         <small style="color: #ff9800;">ዕለታዊ ትርፍ የሚሰላው ከገባው ኢንቨስትመንት ነው።</small>
@@ -665,36 +766,61 @@
                     </button>
                 </div>
                 
+                <div class="investment-list-display" id="investment-list-display">
+                    </div>
+                
                 <div class="purchase-form-box" id="purchase-form-box" style="display: none;">
                     <button id="back-to-plans-btn" style="float: right; background: #ccc; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">❌</button>
-                    <h4>
-                        <span id="selected-plan-name">Selected Plan</span> ግዢ
-                    </h4>
-                    
+                    <h4> <span id="selected-plan-name">Selected Plan</span> ግዢ </h4>
                     <p style="text-align: center; font-size: 15px;">
                         የእርስዎ ቀሪ ሂሳብ: <strong>ETB <span id="current-balance-purchase">0.00</span></strong>
                     </p>
                     <p id="plan-info-display" style="text-align: center; color: #387c38; font-weight: bold;"></p>
-
                     <form id="purchase-form">
                         <div class="input-group">
                             <label for="purchase-amount">የኢንቨስትመንት መጠን (Amount) - በETB:</label>
                             <input type="number" id="purchase-amount" required>
                         </div>
-                        
-                        <button type="submit" id="purchase-submit-btn" class="submit-btn">✅ BUY / ግዛ</button>
-                        <p class="message" id="purchase-form-message" style="text-align: center;"></p>
+                        <button type="submit" id="purchase-submit-btn" class="submit-btn" style="width: 100%; margin-top: 10px;">✅ ግዢ ፈጽም</button>
+                        <p class="message purchase-message" id="purchase-form-message" style="text-align: center;"></p>
                     </form>
                 </div>
-                
-                <div class="my-investments-section" style="margin-top: 40px; text-align: center;">
-                    <h3>እርስዎ የገዙዋቸው ኢንቨስትመንቶች</h3>
-                    <div id="investment-list-display" style="border: 1px solid #ccc; border-radius: 8px; padding: 15px; background-color: white; min-height: 50px; text-align: left;">
-                        <p style="text-align: center; color: #555;">ገና ምንም ኢንቨስት አላደረጉም።</p>
-                    </div>
-                </div>
-
             </div>
+        </div>
+        
+        <div id="team-content" class="page-content">
+            <h3>👥 የኔ ቡድን (My Team)</h3>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <p style="font-size: 18px;">
+                    **የእርስዎ Referral Code:** <strong style="color: #1e5a2c; font-size: 24px;" id="referral-code-display">...</strong>
+                </p>
+                <p style="font-size: 16px; color: #555;">
+                    የቡድን አባላት ብዛት (Level 1): <strong id="team-size-display">0</strong>
+                </p>
+            </div>
+            
+            <h4 style="color: #387c38; margin-top: 30px;">🌟 Referral Link (ሼር ያድርጉ)</h4>
+            <div style="background-color: #f0f0f0; padding: 15px; border-radius: 8px; border: 1px dashed #ccc;">
+                <input type="text" id="referral-link-display" readonly style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 15px; margin-bottom: 10px; cursor: text;">
+                <button id="copy-referral-link-btn" class="submit-btn" type="button" style="width: 100%; background-color: #008CBA; padding: 10px; font-size: 15px;">🔗 Referral Link ኮፒ አድርግ</button>
+            </div>
+            <h4 style="color: #1e5a2c; margin-top: 30px;">የቡድን የትርፍ ድርሻ መረጃ</h4>
+            <p>ከቡድንዎ ኢንቨስትመንት 20% ዕለታዊ ትርፍ ያገኛሉ።</p>
+
+        </div>
+        
+        <div id="customer-service-content" class="page-content other-page">
+            <h3>📞 የደንበኛ አገልግሎት (Customer Service)</h3>
+            <p style="text-align: center; margin-bottom: 30px; color: #555;">ለማንኛውም ጥያቄ፣ አስተያየት ወይም ድጋፍ ከታች በተጠቀሱት መንገዶች ያግኙን።</p>
+
+            <div class="account-buttons">
+                 <a href="https://t.me/missleyu67" target="_blank" class="submit-btn" style="background-color: #0088cc; color: white; padding: 15px; text-decoration: none; font-weight: bold; font-size: 16px; border-radius: 8px;"> 💬 የደንበኛ አገልግሎት / Customer Care (@missleyu67) </a>
+                
+                <a href="https://t.me/ethippianagricculturenews" target="_blank" class="submit-btn" style="background-color: #008CBA; color: white; padding: 15px; text-decoration: none; font-weight: bold; font-size: 16px; border-radius: 8px;"> 📢 ኦፊሴላዊ ቻናል / Channel (News) </a>
+                
+                <a href="https://t.me/+FbGfKX5WBR01ZjNk" target="_blank" class="submit-btn" style="background-color: #4CAF50; color: white; padding: 15px; text-decoration: none; font-weight: bold; font-size: 16px; border-radius: 8px;"> 👥 የድጋፍ ግሩፕ / Support Group </a>
+            </div>
+            
         </div>
         
         <div id="account-content" class="page-content other-page">
@@ -705,170 +831,114 @@
             </div>
             
             <div class="account-buttons">
-                
-                <button id="customer-service-btn" type="button">📞 Customer Service (የደንበኛ አገልግሎት)</button>
-
                 <button id="transaction-history-btn" type="button">🧾 Transaction History (የዝውውር ታሪክ)</button>
-
                 <button id="change-password-btn" type="button">🔑 የይለፍ ቃል ቀይር (Change Password)</button>
-                
                 <button id="logout-btn-account" type="button">🚪 Logout (ውጣ)</button>
             </div>
+            
             <p class="message" id="history-message" style="margin-top: 20px; text-align: center;"></p>
+            
         </div>
         
-        <div id="team-content" class="page-content other-page">
-            <h3>👥 My Team (የሪፈራል ገጽ)</h3>
-            
-            <div class="referral-box">
-                <h4>🎉 ጓደኛዎን ይጋብዙ እና ተጨማሪ ገቢ ያግኙ!</h4>
-                <p>የእርስዎን **Referral Code** ወይም **Login Link** ተጠቅመው ጓደኛዎን ያስመዝግቡ።</p>
-                
-                <div style="margin-bottom: 20px;">
-                    <strong style="color: #555;">የእርስዎ Referral Code:</strong>
-                    <div class="referral-info">
-                        <span id="referral-code-display" class="referral-code-display">...</span>
-                        <button id="copy-code-btn" class="copy-btn">ቅዳ</button>
-                    </div>
+        <div id="history-content" class="page-content other-page" style="display: none;">
+            <button id="back-to-account-from-history-btn" style="float: left; background: #f0f0f0; border: 1px solid #ccc; padding: 10px; border-radius: 5px; cursor: pointer; margin-bottom: 15px;">🔙 ወደ Account ተመለስ</button>
+            <div style="clear: both;"></div>
+            <h3>🧾 የዝውውር ታሪክ (Transaction History)</h3>
+            <div id="transaction-history-list">
                 </div>
-
-                <div>
-                    <strong style="color: #555;">የእርስዎ የመመዝገቢያ ሊንክ:</strong>
-                    <div class="referral-info">
-                        <span id="referral-link-display" class="referral-link-display">...</span>
-                        <button id="copy-link-btn" class="copy-btn">ቅዳ</button>
-                    </div>
-                </div>
-                
-                <p style="margin-top: 20px; font-weight: bold;">ጠቅላላ ቡድን አባላት: <span id="team-size-display">0</span></p>
-            </div>
-            
-            <div class="commission-rules">
-                <h4>📜 የሪፈራል ኮሚሽን ህግ</h4>
-                <p>✅ **የመጀመሪያ ጋባዥ ቦነስ (Level 1 Bonus):** በሪፈራል ሊንክዎ የተመዘገበ ሰው በካፒታል ኢንቨስት ሲጀምር **80 ETB** ወዲያውኑ ወደ አካውንትዎ ገቢ ይደረጋል።</p>
-                <p>📈 **የዕለታዊ ትርፍ ኮሚሽን:** በርስዎ የተጋበዘው ሰው (Level 1) በየቀኑ ከሚያገኘው ትርፍ ላይ **20%** ይሰጥዎታል።</p>
-                <p style="margin-top: 10px; font-weight: bold; color: #1e5a2c;">ይህ ትርፍ የጓደኛዎን ትርፍ ሳይነካ በተናጠል ከኩባንያው የሚሰጥ ነው።</p>
-            </div>
-
         </div>
-
+        
+        <div id="change-password-content" class="page-content other-page" style="display: none;">
+            <button id="back-to-account-from-password-btn" style="float: left; background: #f0f0f0; border: 1px solid #ccc; padding: 10px; border-radius: 5px; cursor: pointer; margin-bottom: 15px;">🔙 ወደ Account ተመለስ</button>
+            <div style="clear: both;"></div>
+            <h3>🔑 የይለፍ ቃል ቀይር</h3>
+            
+            <form id="change-password-form" style="max-width: 350px; margin: 0 auto;">
+                <div class="input-group">
+                    <label for="current-password">አሁን ያለ የይለፍ  ቃል:</label>
+                    <input type="password" id="current-password" required>
+                </div>
+                <div class="input-group">
+                    <label for="new-password">አዲስ የይለፍ ቃል (ቢያንስ 6 ፊደል):</label>
+                    <input type="password" id="new-password" required minlength="6">
+                </div>
+                <div class="input-group">
+                    <label for="confirm-new-password">አዲስ የይለፍ ቃል ማረጋገጫ:</label>
+                    <input type="password" id="confirm-new-password" required minlength="6">
+                </div>
+                <button type="submit" class="submit-btn" style="width: 100%;">✅ የይለፍ ቃል ቀይር</button>
+                <p class="message" id="change-password-message" style="text-align: center;"></p>
+            </form>
+        </div>
+        
         <div class="bottom-navbar">
             <button id="nav-home" class="nav-active">Home</button>
             <button id="nav-investment">Investment</button>
-            <button id="nav-account">የኔ መለያ</button>
-            <button id="nav-team">My Team</button>
+            <button id="nav-team">Team</button>
+            <button id="nav-customer-service">Customer Service</button>
+            <button id="nav-account">Account</button>
         </div>
-
+        
     </div>
     
     <div id="admin-dashboard-area" class="admin-dashboard-page">
         <div class="admin-header">
-            <h2>🔐 Admin Panel</h2>
-            <p>የተጠቃሚዎችን Deposit እና Withdraw ጥያቄዎች እዚህ ያረጋግጡ።</p>
-        </div>
-
-        <div class="admin-transaction-list">
-            <h3>📑 በመጠባበቅ ላይ ያሉ ጥያቄዎች (Pending Requests)</h3>
-            <p id="admin-message" style="color: #f44336; font-weight: bold;"></p>
-            <div id="pending-transactions-list">
-                <p style="text-align: center; color: #555;">ምንም በመጠባበቅ ላይ ያለ ጥያቄ የለም።</p>
-            </div>
+            <h2>🚨 ADMIN CONTROL PANEL</h2>
         </div>
         
-        <button id="admin-logout-btn" class="admin-logout-btn">🚪 ከአድሚን ውጣ (Logout)</button>
+        <div class="admin-nav-tabs">
+            <button id="admin-nav-transactions" class="admin-nav-active">Transaction Approvals</button>
+            <button id="admin-nav-investments">Investment Control</button>
+        </div>
+        
+        <div id="admin-transactions-content" class="admin-page-content active">
+            <h3>💰 Deposit/Withdraw ጥያቄዎች</h3>
+            <div class="admin-transaction-list" id="pending-transactions-list">
+                </div>
+        </div>
+        
+        <div id="admin-investments-content" class="admin-page-content">
+            <h3>📈 የነቁ ኢንቨስትመንቶች (Active Investments)</h3>
+            <div class="admin-transaction-list" id="admin-investment-list">
+                </div>
+        </div>
+
+        <button id="admin-logout-btn" class="admin-logout-btn">🚪 Logout (ውጣ)</button>
+
     </div>
-    
+
+
     <script>
-        // ********** 1. FIREBASE INITIALIZATION **********
+        // ********** 1. FIREBASE CONFIGURATION **********
         const firebaseConfig = {
             apiKey: "AIzaSyDu7AqPVMcvSR-hA6VO7zfVCd9XhJvQFcs",
             authDomain: "mmmm-c2cc3.firebaseapp.com",
             databaseURL: "https://mmmm-c2cc3-default-rtdb.firebaseio.com",
             projectId: "mmmm-c2cc3",
-            storageBucket: "mmmm-c2cc3.firebasestorage.app",
-            messagingSenderId: "1064370711409",
-            appId: "1:1064370711409:web:05787d6231bc721c6aa4d0",
-            measurementId: "G-MZ7FM1D607"
+            storageBucket: "mmmm-c2cc3.appspot.com",
+            messagingSenderId: "367069720455",
+            appId: "1:367069720455:web:53173d19114f24f54d5d1c"
         };
-        
-        firebase.initializeApp(firebaseConfig);
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const database = firebase.database();
         const usersRef = database.ref('users');
-        
-        // ********** 2. GLOBAL STATE AND ADMIN INFO **********
-        let activeUser = null; // Currently logged-in user data
-        let isAdmin = false; 
-        const adminCredentials = { identifier: 'admin', password: 'admin123' }; // Admin Info
-        let selectedPlan = null;
-        
-        // ********** 3. DOM ELEMENTS **********
-        // Area Containers
-        const loginRegisterArea = document.getElementById('login-register-area');
-        const dashboardArea = document.getElementById('dashboard-area');
-        const adminDashboardArea = document.getElementById('admin-dashboard-area');
-        
-        // Dashboard Stats
-        const userNameDisplay = document.getElementById('user-name');
-        const currentBalanceDisplay = document.getElementById('current-balance');
-        const totalInvestedAmountDisplay = document.getElementById('total-invested-amount');
-        const currentBalancePurchaseDisplay = document.getElementById('current-balance-purchase');
-        
-        // Navigation Buttons
-        const navHome = document.getElementById('nav-home');
-        const navInvestment = document.getElementById('nav-investment');
-        const navAccount = document.getElementById('nav-account');
-        const navTeam = document.getElementById('nav-team');
-        const allNavButtons = [navHome, navInvestment, navAccount, navTeam];
-        
-        // Dashboard Content Sections
-        const homeContent = document.getElementById('home-content');
-        const investmentContent = document.getElementById('investment-content');
-        const accountContent = document.getElementById('account-content');
-        const teamContent = document.getElementById('team-content');
-        const allContentSections = [homeContent, investmentContent, accountContent, teamContent];
-        
-        // Home page sub-sections
-        const mainHomeContentDiv = document.getElementById('main-home-content-div');
-        const depositPageContentDiv = document.getElementById('deposit-page-content-div');
-        const withdrawPageContentDiv = document.getElementById('withdraw-page-content-div');
-        
-        // Deposit/Withdraw elements
-        const depositBtn = document.getElementById('deposit-btn');
-        const backToHomeFromDepositBtn = document.getElementById('back-to-home-from-deposit-btn');
-        const depositForm = document.getElementById('deposit-form');
-        const depositFormMessage = document.getElementById('deposit-form-message');
-        const depositAmountInput = document.getElementById('deposit-amount');
-        const transactionIdInput = document.getElementById('transaction-id');
-        
-        const withdrawBtn = document.getElementById('withdraw-btn');
-        const backToHomeFromWithdrawBtn = document.getElementById('back-to-home-from-withdraw-btn');
-        const withdrawForm = document.getElementById('withdraw-form');
-        const withdrawFormMessage = document.getElementById('withdraw-form-message');
-        const withdrawAmountInput = document.getElementById('withdraw-amount');
-        const withdrawBankNameInput = document.getElementById('withdraw-bank-name');
-        const withdrawAccountNumberInput = document.getElementById('withdraw-account-number');
-        const withdrawFullNameInput = document.getElementById('withdraw-full-name');
-        
-        // Investment elements
-        const planButtons = document.querySelectorAll('.plan-button');
-        const planGridList = document.getElementById('plan-grid-list');
-        const purchaseFormBox = document.getElementById('purchase-form-box');
-        const backToPlansBtn = document.getElementById('back-to-plans-btn');
-        const selectedPlanNameDisplay = document.getElementById('selected-plan-name');
-        const planInfoDisplay = document.getElementById('plan-info-display');
-        const purchaseAmountInput = document.getElementById('purchase-amount');
-        const purchaseForm = document.getElementById('purchase-form');
-        const purchaseFormMessage = document.getElementById('purchase-form-message');
-        const investmentListDisplay = document.getElementById('investment-list-display');
 
-        // My Team elements
-        const referralCodeDisplay = document.getElementById('referral-code-display');
-        const referralLinkDisplay = document.getElementById('referral-link-display');
-        const copyCodeBtn = document.getElementById('copy-code-btn');
-        const copyLinkBtn = document.getElementById('copy-link-btn');
-        const teamSizeDisplay = document.getElementById('team-size-display');
-        
+        // Admin Credentials
+        const adminCredentials = {
+            identifier: 'admin',
+            password: 'a22'
+        };
+
+        // ********** 2. GLOBAL STATE **********
+        let activeUser = null; // Currently logged in user object
+        let isAdmin = null;
+
+        // ********** 3. DOM ELEMENTS **********
         // Login/Register elements
+        const loginRegisterArea = document.getElementById('login-register-area');
         const loginTab = document.getElementById('login-tab');
         const registerTab = document.getElementById('register-tab');
         const loginForm = document.getElementById('login-form');
@@ -877,285 +947,672 @@
         const registerMessage = document.getElementById('register-message');
         const goToRegisterLink = document.getElementById('go-to-register');
         const goToLoginLink = document.getElementById('go-to-login');
+
+        // Dashboard elements
+        const dashboardArea = document.getElementById('dashboard-area');
+        const userNameDisplay = document.getElementById('user-name');
+        const currentBalanceDisplay = document.getElementById('current-balance');
+        const totalInvestedAmountDisplay = document.getElementById('total-invested-amount');
+        const dailyProfitDisplay = document.getElementById('daily-profit-display');
+        const investmentListDisplay = document.getElementById('investment-list-display');
+        const teamSizeDisplay = document.getElementById('team-size-display');
+        const referralCodeDisplay = document.getElementById('referral-code-display');
+        const referralLinkDisplay = document.getElementById('referral-link-display'); // NEW
+        const copyReferralLinkBtn = document.getElementById('copy-referral-link-btn'); // NEW
+
+        // Navigation elements
+        const navHome = document.getElementById('nav-home');
+        const navInvestment = document.getElementById('nav-investment');
+        const navCustomerService = document.getElementById('nav-customer-service');
+        const navAccount = document.getElementById('nav-account');
+        const navTeam = document.getElementById('nav-team');
+        const allNavButtons = document.querySelectorAll('.bottom-navbar button');
+
+        // Content sections
+        const allContentSections = document.querySelectorAll('.page-content');
+        const homeContent = document.getElementById('home-content');
+        const investmentContent = document.getElementById('investment-content');
+        const customerServiceContent = document.getElementById('customer-service-content');
+        const accountContent = document.getElementById('account-content');
+        const teamContent = document.getElementById('team-content');
         
-        // Admin Panel elements
-        const pendingTransactionsList = document.getElementById('pending-transactions-list');
-        const adminMessage = document.getElementById('admin-message');
-        const adminLogoutBtn = document.getElementById('admin-logout-btn');
-        
-        // Account buttons
-        const changePasswordBtn = document.getElementById('change-password-btn');
+        // Home page buttons/divs
+        const depositBtn = document.getElementById('deposit-btn');
+        const withdrawBtn = document.getElementById('withdraw-btn');
+        const mainHomeContentDiv = document.getElementById('main-home-content-div');
+        const depositPageContentDiv = document.getElementById('deposit-page-content-div');
+        const withdrawPageContentDiv = document.getElementById('withdraw-page-content-div');
+        const backToHomeFromDepositBtn = document.getElementById('back-to-home-from-deposit-btn');
+        const backToHomeFromWithdrawBtn = document.getElementById('back-to-home-from-withdraw-btn');
+
+        // Deposit form elements
+        const depositForm = document.getElementById('deposit-form');
+        const depositAmountInput = document.getElementById('deposit-amount');
+        const transactionIdInput = document.getElementById('transaction-id');
+        const depositFormMessage = document.getElementById('deposit-form-message');
+
+        // Withdraw form elements
+        const withdrawForm = document.getElementById('withdraw-form');
+        const withdrawBankNameInput = document.getElementById('withdraw-bank-name');
+        const withdrawFullNameInput = document.getElementById('withdraw-full-name');
+        const withdrawAccountNumberInput = document.getElementById('withdraw-account-number');
+        const withdrawAmountInput = document.getElementById('withdraw-amount');
+        const withdrawFormMessage = document.getElementById('withdraw-form-message');
+
+        // Investment page elements
+        const planButtons = document.querySelectorAll('.plan-button');
+        const purchaseFormBox = document.getElementById('purchase-form-box');
+        const backToPlansBtn = document.getElementById('back-to-plans-btn');
+        const selectedPlanNameDisplay = document.getElementById('selected-plan-name');
+        const currentBalancePurchaseDisplay = document.getElementById('current-balance-purchase');
+        const planInfoDisplay = document.getElementById('plan-info-display');
+        const purchaseForm = document.getElementById('purchase-form');
+        const purchaseAmountInput = document.getElementById('purchase-amount');
+        const purchaseFormMessage = document.getElementById('purchase-form-message');
+        let selectedPlan = null; // To hold the currently selected plan data
+
+        // Account page elements
         const transactionHistoryBtn = document.getElementById('transaction-history-btn');
+        const changePasswordBtn = document.getElementById('change-password-btn');
         const logoutBtnAccount = document.getElementById('logout-btn-account');
-        const historyMessage = document.getElementById('history-message');
-
-        // ********** 4. UTILITY FUNCTIONS **********
         
-        // Helper to generate a simple referral code
-        function generateReferralCode(phone) {
-            return 'AGR' + phone.slice(-4) + Math.random().toString(36).substr(2, 3).toUpperCase();
-        }
+        // History Page elements
+        const historyContent = document.getElementById('history-content');
+        const backToAccountFromHistoryBtn = document.getElementById('back-to-account-from-history-btn');
+        const transactionHistoryList = document.getElementById('transaction-history-list');
+        
+        // Change Password Page elements
+        const changePasswordContent = document.getElementById('change-password-content');
+        const backToAccountFromPasswordBtn = document.getElementById('back-to-account-from-password-btn');
+        const changePasswordForm = document.getElementById('change-password-form');
+        const changePasswordMessage = document.getElementById('change-password-message');
 
-        // Helper to get all users data from DB (async operation)
-        async function getAllUsersData() {
-            const snapshot = await usersRef.once('value');
-            return snapshot.val() || {}; // Returns an object of users
-        }
+        // Admin elements
+        const adminDashboardArea = document.getElementById('admin-dashboard-area');
+        const adminNavTransactions = document.getElementById('admin-nav-transactions');
+        const adminNavInvestments = document.getElementById('admin-nav-investments');
+        const adminTransactionsContent = document.getElementById('admin-transactions-content');
+        const adminInvestmentsContent = document.getElementById('admin-investments-content');
+        const pendingTransactionsList = document.getElementById('pending-transactions-list');
+        const adminInvestmentList = document.getElementById('admin-investment-list');
+        const adminLogoutBtn = document.getElementById('admin-logout-btn');
 
-        // Helper to get user data (for activeUser or another user)
+
+        // ********** 4. FIREBASE UTILITIES **********
+        // Helper function to get user data by phone number (identifier)
         async function getUserData(identifier) {
-            const snapshot = await usersRef.child(identifier).once('value');
-            return snapshot.val();
+            try {
+                const snapshot = await usersRef.child(identifier).once('value');
+                return snapshot.val();
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                return null;
+            }
         }
 
-        // Helper to update a user's data
-        function updateUserData(identifier, userData) {
-            // Firebase Realtime DB cannot store empty arrays/objects, so convert empty transactions/investments to object or remove them
-            if (userData.transactions && userData.transactions.length === 0) {
-                userData.transactions = null; // Removing null keys is cleaner
+        // Helper function to update user data
+        async function updateUserData(identifier, data) {
+            try {
+                await usersRef.child(identifier).update(data);
+                return true;
+            } catch (error) {
+                console.error("Error updating user data:", error);
+                return false;
             }
-            if (userData.investments && userData.investments.length === 0) {
-                userData.investments = null;
-            }
-
-            return usersRef.child(identifier).update(userData);
         }
 
+        // Helper function to get all user data
+        async function getAllUsersData() {
+            try {
+                const snapshot = await usersRef.once('value');
+                return snapshot.val() || {};
+            } catch (error) {
+                console.error("Error fetching all users data:", error);
+                return {};
+            }
+        }
 
-        // ***** UTILITY FUNCTION: Login/Register Tab መቀያየርያ *****
-        function switchAuthTab(tabName) {
-            loginTab.classList.remove('active');
-            registerTab.classList.remove('active');
-            loginForm.classList.remove('active');
-            registerForm.classList.remove('active');
+        // Utility to switch between Login/Register tabs
+        function switchAuthTab(tabId) {
+            document.getElementById('login-tab').classList.remove('active');
+            document.getElementById('register-tab').classList.remove('active');
+            document.getElementById('login-form').classList.remove('active');
+            document.getElementById('register-form').classList.remove('active');
 
+            if (tabId === 'login') {
+                document.getElementById('login-tab').classList.add('active');
+                document.getElementById('login-form').classList.add('active');
+            } else {
+                document.getElementById('register-tab').classList.add('active');
+                document.getElementById('register-form').classList.add('active');
+            }
             loginMessage.textContent = '';
             registerMessage.textContent = '';
-
-            if (tabName === 'login') {
-                loginTab.classList.add('active');
-                loginForm.classList.add('active');
-            } else if (tabName === 'register') {
-                registerTab.classList.add('active');
-                registerForm.classList.add('active');
-            }
         }
 
-        // ***** Dashboard ገጽ የመቀያየር ተግባር *****
-        function switchDashboardPage(pageId) {
-            allContentSections.forEach(section => section.classList.remove('active'));
-            allNavButtons.forEach(button => button.classList.remove('nav-active'));
-
-            mainHomeContentDiv.style.display = 'block';
-            depositPageContentDiv.style.display = 'none';
-            withdrawPageContentDiv.style.display = 'none';
-            purchaseFormBox.style.display = 'none';
-            planGridList.style.display = 'flex';
-            historyMessage.textContent = ''; // የ Transaction History መልዕክትን ያጠፋል
-
-            let targetSection, targetNav;
-            switch (pageId) {
-                case 'home':
-                    targetSection = homeContent;
-                    targetNav = navHome;
-                    break;
-                case 'investment':
-                    targetSection = investmentContent;
-                    targetNav = navInvestment;
-                    displayInvestments();
-                    break;
-                case 'account':
-                    targetSection = accountContent;
-                    targetNav = navAccount;
-                    document.getElementById('account-info').textContent = `ስልክ: ${activeUser.identifier} | ሙሉ ስም: ${activeUser.name}`;
-                    break;
-                case 'team':
-                    targetSection = teamContent;
-                    targetNav = navTeam;
-                    updateTeamData();
-                    break;
-            }
-
-            if (targetSection) {
-                targetSection.classList.add('active');
-                targetNav.classList.add('nav-active');
-            }
-        }
-
-        // ***** Dashboard ዳታ ማሳያ/ማዘመን ተግባር *****
-        async function updateDashboardData() {
-            if (!activeUser) return;
+        // Function to handle logout
+        function logout() {
+            activeUser = null;
+            isAdmin = false;
+            // Clear all areas and show login page
+            dashboardArea.style.display = 'none';
+            adminDashboardArea.style.display = 'none';
+            loginRegisterArea.style.display = 'flex';
             
-            // 1. የትርፍ ስሌት (Profit Simulation)
-            await simulateDailyProfit(activeUser.identifier);
+            // Redirect to base URL to clear referral params
+            window.location.href = window.location.origin;
+            
+            // switchAuthTab('login'); // Not needed if redirecting
+        }
 
-            // 2. የተሻሻለውን የተጠቃሚ መረጃ ከ DB ማውጣት
+        // ********** 5. CORE DASHBOARD LOGIC **********
+        // Investment Profit Calculation and Update (CRITICAL FUNCTION)
+        async function calculateAndDistributeProfit(userId) {
+            const user = await getUserData(userId);
+            if (!user || !user.investments) return;
+
+            // Get last profit calculation date or use registration date if none exists
+            const lastCalcDate = user.lastProfitCalculated ? new Date(user.lastProfitCalculated) : new Date(user.registrationDate);
+            const now = new Date();
+            
+            // Check for a full day difference (24 hours)
+            const diffTime = now.getTime() - lastCalcDate.getTime();
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
+
+            if (diffDays < 1) return; // No need to calculate if less than a day passed
+
+            let totalProfit = 0;
+            let referralCommission = 0;
+            
+            // 1. Calculate main investment profit
+            let investmentsArray = Array.isArray(user.investments) ? user.investments : (user.investments ? Object.values(user.investments) : []);
+            investmentsArray.forEach(inv => {
+                if (inv.daysLeft > 0) {
+                    const dailyProfit = inv.amount * (inv.rate / 100);
+                    const accumulatedProfit = dailyProfit * diffDays;
+                    
+                    // Decrease days left by diffDays
+                    inv.daysLeft = Math.max(0, inv.daysLeft - diffDays);
+                    inv.profitEarned = (inv.profitEarned || 0) + accumulatedProfit;
+                    totalProfit += accumulatedProfit;
+                }
+            });
+            user.investments = investmentsArray;
+
+            // 2. Calculate referral commission (20% of the daily profit of the referee)
+            const allUsers = await getAllUsersData();
+            const level1Users = Object.values(allUsers).filter(refUser => refUser.referredBy === userId);
+
+            if (level1Users.length > 0) {
+                level1Users.forEach(refUser => {
+                    let refTotalDailyProfit = 0;
+                    const refInvestmentsArray = Array.isArray(refUser.investments) ? refUser.investments : (refUser.investments ? Object.values(refUser.investments) : []);
+                    
+                    refInvestmentsArray.forEach(refInv => {
+                        if (refInv.daysLeft > 0) {
+                            // Using the maximum possible daily profit rate for calculation, assuming daily profit distribution
+                            refTotalDailyProfit += refInv.amount * (refInv.rate / 100); 
+                        }
+                    });
+
+                    if (refTotalDailyProfit > 0) {
+                        const commission = refTotalDailyProfit * 0.20; // 20% commission
+                        referralCommission += commission * diffDays; // ለነዚህ ቀናት የተጠራቀመ ኮሚሽን
+                    }
+                });
+            }
+
+
+            const totalEarning = totalProfit + referralCommission;
+
+            if (totalEarning > 0) {
+                // 3. Update User Balance and Transaction History
+                user.balance = (user.balance || 0) + totalEarning;
+
+                const profitTx = {
+                    id: 'tx_profit_' + Date.now(),
+                    type: "Daily Profit",
+                    amount: totalEarning,
+                    date: new Date().toISOString().slice(0, 10),
+                    status: "Completed",
+                    details: `Daily Profit (${totalProfit.toFixed(2)} ETB) + Referral Commission (${referralCommission.toFixed(2)} ETB) for ${diffDays} days`
+                };
+
+                let transactionsArray = Array.isArray(user.transactions) ? user.transactions : (user.transactions ? Object.values(user.transactions) : []);
+                transactionsArray.push(profitTx);
+                user.transactions = transactionsArray;
+
+                // 4. Update the last calculation time to NOW
+                user.lastProfitCalculated = now.toISOString();
+
+                // 5. Save all changes back to Firebase
+                await updateUserData(userId, {
+                    balance: user.balance,
+                    transactions: user.transactions,
+                    investments: user.investments,
+                    lastProfitCalculated: user.lastProfitCalculated
+                });
+            }
+        }
+
+        // Dashboard Data Update and UI Refresh
+        async function updateDashboardData() {
+            if (!activeUser) return logout();
+
+            // 1. Calculate and distribute any outstanding profit first
+            await calculateAndDistributeProfit(activeUser.identifier);
+
+            // 2. Refetch the updated user data
             activeUser = await getUserData(activeUser.identifier);
             if (!activeUser) return logout(); // User somehow deleted
 
             // 3. UI Update
             userNameDisplay.textContent = `እንኳን ደህና መጡ! ${activeUser.name}`;
-            const balance = activeUser.balance ? activeUser.balance.toFixed(2) : '0.00';
-            const totalInvested = activeUser.totalInvested ? activeUser.totalInvested.toFixed(2) : '0.00';
+            const balance = activeUser.balance || 0;
+            currentBalanceDisplay.textContent = balance.toFixed(2);
+            totalInvestedAmountDisplay.textContent = (activeUser.totalInvested || 0).toFixed(2);
+            currentBalancePurchaseDisplay.textContent = balance.toFixed(2); // For investment page
 
-            currentBalanceDisplay.textContent = balance;
-            currentBalancePurchaseDisplay.textContent = balance;
-            totalInvestedAmountDisplay.textContent = totalInvested;
-
-            // ሪፈራል ኮዱን ማሳየት
-            referralCodeDisplay.textContent = activeUser.referralCode;
-            referralLinkDisplay.textContent = `http://agrocheminvest.com/register?ref=${activeUser.referralCode}`;
+            // 4. ዕለታዊ ከፍተኛ ትርፍ ስሌት (Daily Maximum Profit Calculation)
+            let currentMaxDailyProfit = 0;
+            let investmentsArray = Array.isArray(activeUser.investments) ? activeUser.investments : (activeUser.investments ? Object.values(activeUser.investments) : []);
             
-            // ኢንቨስትመንቶችን ማሳየት
-            displayInvestments();
-        }
-
-        // ***** የኢንቨስትመንት ማሳያ *****
-        function displayInvestments() {
-            if (!activeUser || !activeUser.investments || activeUser.investments.length === 0) {
-                investmentListDisplay.innerHTML = '<p style="text-align: center; color: #555;">ገና ምንም ኢንቨስት አላደረጉም።</p>';
-                return;
-            }
-
-            let listHTML = '';
-            // Investment arrayን ከ DB ስናመጣ Array ላይሆን ይችላል (object ሊሆን ይችላል). ወደ Array መለወጥ
-            const investmentsArray = Array.isArray(activeUser.investments) ? activeUser.investments : Object.values(activeUser.investments);
-            
-            investmentsArray.forEach((inv) => {
-                const dailyProfit = (inv.amount * inv.rate / 100).toFixed(2);
-                const statusColor = inv.daysLeft > 0 ? 'green' : '#f44336';
-                const statusText = inv.daysLeft > 0 ? 'Active' : 'Expired';
-                listHTML += `
-                    <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 8px; background-color: #f7f7f7;">
-                        <p style="margin: 0;"><strong>${inv.name} Plan - ${inv.amount.toFixed(2)} ETB</strong></p>
-                        <p style="margin: 3px 0; font-size: 14px;">
-                            <span style="color: #387c38;">ዕለታዊ ትርፍ: ${dailyProfit} ETB (${inv.rate}%)</span> | የተገኘ ጠቅላላ ትርፍ: ${inv.profitEarned.toFixed(2)} ETB 
-                        </p>
-                        <p style="margin: 3px 0; font-size: 12px; color: #777;">
-                            የሚቆይበት ቀናት: <span style="font-weight: bold;">${inv.daysLeft} ቀናት ይቀራሉ</span> | ሁኔታ: <span style="font-weight: bold; color: ${statusColor};">${statusText}</span>
-                        </p>
-                    </div>
-                `;
-            });
-            investmentListDisplay.innerHTML = listHTML;
-        }
-
-
-        // ***** ዕለታዊ የትርፍ ስሌት (Daily Profit Simulation) *****
-        async function simulateDailyProfit(userId) {
-            const user = await getUserData(userId);
-            if (!user || user.investments === null) {
-                // ለተጠቃሚው የቅርብ ጊዜ የትርፍ ስሌት ቀን ማዘመን
-                if (user) {
-                    user.lastProfitDate = new Date().toISOString().slice(0, 10);
-                    await updateUserData(userId, user);
-                }
-                return;
-            }
-
-            const today = new Date();
-            const lastDate = new Date(user.lastProfitDate || '2020-01-01'); // ለመጀመሪያ ጊዜ ሎድ ሲደረግ
-            
-            // የ10 ቀን Simulation ገደብ - በቀናት መካከል ያለውን ልዩነት ማስላት
-            const diffTime = Math.abs(today - lastDate);
-            let diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
-            
-            if (diffDays === 0) {
-                return;
-            }
-            
-            // ትርፍ የሚሰላው ቢበዛ ለ 10 ቀናት ብቻ ነው (Simulation Limit)
-            diffDays = Math.min(diffDays, 10); 
-            
-            let totalProfit = 0;
-            const investmentsArray = Array.isArray(user.investments) ? user.investments : Object.values(user.investments);
-
             investmentsArray.forEach(inv => {
                 if (inv.daysLeft > 0) {
-                    const dailyProfit = inv.amount * (inv.rate / 100);
-                    
-                    let daysToDeduct = diffDays;
-                    if (inv.daysLeft < diffDays) {
-                        daysToDeduct = inv.daysLeft;
-                    }
-                    
-                    const profitToAdd = dailyProfit * daysToDeduct;
-                    totalProfit += profitToAdd;
-                    
-                    inv.profitEarned += profitToAdd;
-                    inv.daysLeft -= daysToDeduct;
-                    if (inv.daysLeft < 0) { inv.daysLeft = 0; }
+                    currentMaxDailyProfit += inv.amount * (inv.rate / 100);
                 }
             });
 
-            // የ Level 1 ሪፈራል ኮሚሽን ማስላት
-            let referralCommission = 0;
-            const level1Users = users.filter(user => user.referredBy === activeUser.identifier);
+            // Referral Daily Commission (Based on active investments of L1 team)
+            const allUsers = await getAllUsersData();
+            const level1Users = Object.values(allUsers).filter(refUser => refUser.referredBy === activeUser.identifier);
 
-            level1Users.forEach(refUser => {
-                // በተጋባዡ ላይ የዕለታዊ ትርፍ ማስላት/ማስመሰል (ለመጀመሪያ ጊዜ ብቻ)
-                // ማስታወሻ: ይህ recursion (ተደጋጋሚ ጥሪ) ከባድ ሊሆን ይችላል። ለቀለለ አሰራር የተጋባዡን ትራንዛክሽን መመልከት ይመከራል።
-                // ለዚህ ምሳሌ ግን ቀጥሎ ባለው ኮድ እንዲሰራ እናድርገው
-                // simulateDailyProfit(refUser); // ለተጋባዡ ትርፍ መሠራት አለበት
-                
-                // የተጋባዡን ትርፍ ማግኘት (በተጋባዡ ላይ ያለውን transaction ማየት)
-                const refUserProfits = refUser.transactions.filter(t => t.type.startsWith('Profit'));
-                
-                if (refUserProfits.length > 0) {
-                    // የተጋባዡን የቅርብ ጊዜ ትርፍ መውሰድ
-                    const latestProfitTx = refUserProfits[refUserProfits.length - 1];
-                    // ያገኘው ትርፍ በዛሬው ቀን (ወይም በ Simulation ቀን) ላይ የተፈጠረ ከሆነ ኮሚሽኑን መውሰድ
-                    if (latestProfitTx.date === today.toISOString().slice(0, 10)) {
-                         const profit = latestProfitTx.amount;
-                         const commission = profit * 0.20; // 20% ኮሚሽን
-                         referralCommission += commission;
-                         profitMessage += `Referral Commission from ${refUser.name}: ${commission.toFixed(2)} ETB | `;
+            if (level1Users.length > 0) {
+                level1Users.forEach(refUser => {
+                    const refInvestmentsArray = Array.isArray(refUser.investments) ? refUser.investments : (refUser.investments ? Object.values(refUser.investments) : []);
+                    let refTotalDailyProfit = 0;
+                    refInvestmentsArray.forEach(refInv => {
+                        if (refInv.daysLeft > 0) {
+                             // Using the maximum possible daily profit rate for calculation
+                            refTotalDailyProfit += refInv.amount * (refInv.rate / 100); 
+                        }
+                    });
+                    if (refTotalDailyProfit > 0) {
+                        currentMaxDailyProfit += refTotalDailyProfit * 0.20; // 20% commission
                     }
-                }
-            });
-
-            // አዲስ ትራንዛክሽን መፍጠር እና ማዘመን
-            if (totalProfit > 0) {
-                user.balance = (user.balance || 0) + totalProfit;
-                const newTx = {
-                    id: 'Profit_' + Date.now(), 
-                    type: "Daily Profit",
-                    amount: totalProfit,
-                    date: today.toISOString().slice(0, 10),
-                    status: "Completed",
-                    details: `Profit for ${diffDays} days`
-                };
-                
-                // Transactions Array ላይ መጨመር (ከ Object.values የመጣ ከሆነ ወደ Array መቀየር)
-                let transactionsArray = Array.isArray(user.transactions) ? user.transactions : (user.transactions ? Object.values(user.transactions) : []);
-                transactionsArray.push(newTx);
-                user.transactions = transactionsArray;
-
-                // Investment Array ላይ መጨመር
-                user.investments = investmentsArray;
-
-                // የቅርብ ጊዜ የትርፍ ስሌት ቀን ማዘመን
-                user.lastProfitDate = today.toISOString().slice(0, 10);
-                
-                // ወደ Firebase Database መላክ
-                await updateUserData(userId, user);
+                });
             }
+            dailyProfitDisplay.textContent = currentMaxDailyProfit.toFixed(2); // Display the calculated total max daily profit
+
+
+            // 5. ሪፈራል ኮዱን ማሳየት
+            referralCodeDisplay.textContent = activeUser.referralCode;
+            
+            // NEW: ሪፈራል ሊንክን ማሳየት
+            const baseURL = window.location.origin + window.location.pathname; // ይህ አሁን ያለበትን ገጽ አድራሻ ይወስዳል (ለምሳሌ: https://ag-project-pi.vercel.app/)
+            const referralLink = `${baseURL}?ref=${activeUser.referralCode}`;
+            if (referralLinkDisplay) {
+                referralLinkDisplay.value = referralLink;
+            }
+
+            // 6. ኢንቨስትመንቶችን ማሳየት
+            displayInvestments();
+
+            // 7. የቡድን መጠን ማሳየት
+            updateTeamData();
+            
+            // 8. የመለያ መረጃን ማሳየት
+            document.getElementById('account-info').textContent = `ስልክ: ${activeUser.identifier} | ሙሉ ስም: ${activeUser.name}`;
         }
-        
-        // ***** የሪፈራል ቡድን መጠን ማሳያ *****
+
+        // የቡድን መጠን ማሳያ
         async function updateTeamData() {
             if (!activeUser) return;
             const allUsers = await getAllUsersData();
             const allUsersArray = Object.values(allUsers);
             const level1Users = allUsersArray.filter(refUser => refUser.referredBy === activeUser.identifier);
-            
             activeUser.teamSize = level1Users.length; // DB ላይ የማያስፈልግ ቢሆንም ለጊዜው
             teamSizeDisplay.textContent = level1Users.length;
         }
 
-        // ********** 5. EVENT HANDLERS - CORE **********
+        // Display User Investments on Investment Page
+        function displayInvestments() {
+            if (!activeUser || !activeUser.investments) {
+                investmentListDisplay.innerHTML = '<p style="text-align: center; color: #555;">ገና ምንም ኢንቨስት አላደረጉም።</p>';
+                return;
+            }
 
-        // ***** 5.1. Login አያያዝ *****
+            const investmentsArray = Array.isArray(activeUser.investments) ? activeUser.investments : Object.values(activeUser.investments);
+            let html = '';
+            
+            // Sort by newest first
+            investmentsArray.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+
+            investmentsArray.forEach(inv => {
+                // Days Left is used to determine status. If <= 0, it's ended/completed.
+                const status = inv.daysLeft > 0 ? 'Active' : 'Ended/Completed';
+                const statusColor = inv.daysLeft > 0 ? '#387c38' : '#f44336';
+                const daysDisplay = inv.daysLeft > 0 ? `<span style="font-weight: bold; color: ${statusColor};">${inv.daysLeft}</span> / ${inv.daysTotal} ቀናት` : 'ተጠናቋል!';
+                const profitStatusColor = (inv.profitEarned > 0) ? '#1e5a2c' : '#555';
+                
+                html += `
+                    <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); border-left: 5px solid ${statusColor};">
+                        <p style="margin: 3px 0; font-size: 15px;"><strong>ዕቅድ:</strong> ${inv.name} | <strong>መጠን:</strong> ${inv.amount.toFixed(2)} ETB</p>
+                        <p style="margin: 3px 0; font-size: 15px;"><strong>ዕለታዊ ትርፍ:</strong> ${inv.rate}%</p>
+                        <p style="margin: 3px 0; font-size: 15px;"><strong>የኢንቨስትመንት ጊዜ:</strong> ${daysDisplay}</p>
+                        <p style="margin: 3px 0; font-size: 15px; color: ${profitStatusColor};"><strong>የተገኘ ትርፍ (Profit Earned):</strong> ${inv.profitEarned.toFixed(2)} ETB</p>
+                        <p style="margin: 3px 0; font-size: 14px;"><strong>ሁኔታ:</strong> <span style="font-weight: bold; color: ${statusColor};">${status}</span></p>
+                    </div>
+                `;
+            });
+
+            investmentListDisplay.innerHTML = html;
+        }
+
+        // Display transaction history
+        function displayTransactionHistory() {
+            if (!activeUser || !activeUser.transactions) {
+                transactionHistoryList.innerHTML = '<p style="text-align: center; color: #555;">ምንም የዝውውር ታሪክ የለም።</p>';
+                return;
+            }
+            
+            let transactionsArray = Array.isArray(activeUser.transactions) ? activeUser.transactions : Object.values(activeUser.transactions);
+            // Sort by newest first
+            transactionsArray.sort((a, b) => new Date(b.id.split('_')[2]) - new Date(a.id.split('_')[2]));
+
+            let historyHTML = '<table style="width:100%; border-collapse: collapse; margin-top: 15px;">';
+            historyHTML += '<thead><tr style="background-color: #f2f2f2; text-align: left;"><th>ቀን</th><th>ዓይነት</th><th>መጠን</th><th>ሁኔታ</th></tr></thead><tbody>';
+
+            transactionsArray.forEach(tx => {
+                const statusClass = `status-${tx.status}`;
+                const sign = tx.type.includes('Deposit') || tx.type.includes('Bonus') || tx.type.includes('Profit') ? '+' : (tx.type.includes('Withdraw') || tx.type.includes('Purchase') ? '' : '');
+                const color = sign === '+' ? '#387c38' : (tx.type.includes('Withdraw') || tx.type.includes('Purchase') ? '#f44336' : '#555');
+                let amountDisplay = tx.type.includes('Purchase') ? `-${Math.abs(tx.amount).toFixed(2)}` : `${sign}${tx.amount.toFixed(2)}`;
+
+                historyHTML += `
+                    <tr>
+                        <td style="padding: 10px; border-bottom: 1px solid #eee;">${tx.date}</td>
+                        <td style="padding: 10px; border-bottom: 1px solid #eee;">${tx.type}</td>
+                        <td style="padding: 10px; border-bottom: 1px solid #eee; color: ${color}; font-weight: bold;">${amountDisplay} ETB</td>
+                        <td style="padding: 10px; border-bottom: 1px solid #eee;"><span class="${statusClass}">${tx.status}</span></td>
+                    </tr>
+                `;
+            });
+
+            historyHTML += '</tbody></table>';
+            transactionHistoryList.innerHTML = historyHTML;
+        }
+
+
+        // ********** 5.1. ADMIN LOGIC **********
+        // Utility to switch between admin tabs
+        function switchAdminPage(pageId) {
+            const allAdminPages = document.querySelectorAll('.admin-page-content');
+            const allAdminNavs = document.querySelectorAll('.admin-nav-tabs button');
+            allAdminPages.forEach(page => page.classList.remove('active'));
+            allAdminNavs.forEach(nav => nav.classList.remove('admin-nav-active'));
+
+            if (pageId === 'transactions') {
+                adminTransactionsContent.classList.add('active');
+                adminNavTransactions.classList.add('admin-nav-active');
+                displayPendingTransactions();
+            } else if (pageId === 'investments') {
+                adminInvestmentsContent.classList.add('active');
+                adminNavInvestments.classList.add('admin-nav-active');
+                displayUserInvestmentsForAdmin();
+            }
+        }
+
+        // Display all pending transactions for admin
+        async function displayPendingTransactions() {
+            if (!isAdmin) return;
+            pendingTransactionsList.innerHTML = '<p style="text-align: center; color: #555;">Loading...</p>';
+            
+            const allUsers = await getAllUsersData();
+            const pendingTxs = [];
+
+            // Iterate through all users and collect pending transactions
+            Object.keys(allUsers).forEach(userId => {
+                const user = allUsers[userId];
+                const transactionsArray = Array.isArray(user.transactions) ? user.transactions : (user.transactions ? Object.values(user.transactions) : []);
+
+                transactionsArray.forEach(tx => {
+                    if (tx.status === 'Pending') {
+                        pendingTxs.push({
+                            ...tx,
+                            userName: user.name,
+                            userId: user.identifier // The user's phone number
+                        });
+                    }
+                });
+            });
+
+            pendingTransactionsList.innerHTML = ''; // Clear existing list
+            if (pendingTxs.length === 0) {
+                pendingTransactionsList.innerHTML = '<p style="text-align: center; color: #555;">ምንም በመጠባበቅ ላይ ያለ ጥያቄ የለም።</p>';
+                return;
+            }
+
+            pendingTxs.forEach(tx => {
+                const info = tx.type === 'Deposit' ? 
+                            `Transaction ID: ${tx.id}` : 
+                            `Bank: ${tx.bankName} | Account: ${tx.accountNumber} | Name: ${tx.fullName}`;
+                const actionType = tx.type === 'Deposit' ? 'Deposit' : 'Withdraw';
+                
+                pendingTransactionsList.innerHTML += `
+                    <div class="admin-transaction-item" style="border-left: 5px solid ${actionType === 'Deposit' ? '#4CAF50' : '#f44336'};">
+                        <div class="admin-transaction-info">
+                            <p><strong>ተጠቃሚ:</strong> ${tx.userName} (${tx.userId})</p>
+                            <p><strong>ዓይነት:</strong> ${tx.type} | <strong>መጠን:</strong> ${tx.amount.toFixed(2)} ETB</p>
+                            <p><strong>ቀን:</strong> ${tx.date}</p>
+                            <p><strong>ዝርዝር:</strong> ${info}</p>
+                        </div>
+                        <div class="admin-actions">
+                            <button class="approve-btn" data-tx-id="${tx.id}" data-user-id="${tx.userId}" data-type="${tx.type}" data-amount="${tx.amount}">✅ Approve</button>
+                            <button class="reject-btn" data-tx-id="${tx.id}" data-user-id="${tx.userId}" data-type="${tx.type}" data-amount="${tx.amount}">❌ Reject</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Add event listeners for the new buttons
+            document.querySelectorAll('.approve-btn, .reject-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const txId = this.getAttribute('data-tx-id');
+                    const userId = this.getAttribute('data-user-id');
+                    const txType = this.getAttribute('data-type');
+                    const txAmount = parseFloat(this.getAttribute('data-amount'));
+                    const status = this.classList.contains('approve-btn') ? 'Completed' : 'Rejected';
+                    handleTransactionApproval(userId, txId, txType, txAmount, status);
+                });
+            });
+        }
+
+        // Admin function to approve or reject transactions
+        async function handleTransactionApproval(userId, txId, txType, txAmount, status) {
+            if (!isAdmin) return;
+
+            const user = await getUserData(userId);
+            if (!user) {
+                alert("⚠️ ተጠቃሚው አልተገኘም።");
+                return;
+            }
+
+            let userTxs = Array.isArray(user.transactions) ? user.transactions : Object.values(user.transactions);
+            const transactionIndex = userTxs.findIndex(tx => tx.id === txId && tx.status === 'Pending');
+
+            if (transactionIndex === -1) {
+                alert("⚠️ የዝውውር ጥያቄው ተሰርዟል ወይም አልተገኘም።");
+                displayPendingTransactions(); // Refresh list
+                return;
+            }
+
+            userTxs[transactionIndex].status = status;
+
+            if (status === 'Completed') {
+                if (txType === 'Deposit') {
+                    user.balance = (user.balance || 0) + txAmount;
+                    alert(`✅ የ ${txAmount.toFixed(2)} ETB Deposit ጥያቄ በተሳካ ሁኔታ ፀድቋል። ገንዘቡ ገብቷል።`);
+                } else if (txType === 'Withdraw') {
+                    // Withdraw was already deducted on user side, just confirm
+                    alert(`✅ የ ${txAmount.toFixed(2)} ETB Withdraw ጥያቄ በተሳካ ሁኔታ ፀድቋል። ገንዘቡ ይለቀቃል።`);
+                }
+            } else if (status === 'Rejected') {
+                if (txType === 'Withdraw') {
+                    // Refund the money for a rejected withdraw
+                    user.balance = (user.balance || 0) + txAmount;
+                    alert(`❌ የ ${txAmount.toFixed(2)} ETB Withdraw ጥያቄ ውድቅ ተደርጓል። ገንዘቡ ተመልሷል።`);
+                } else if (txType === 'Deposit') {
+                    alert(`❌ የ ${txAmount.toFixed(2)} ETB Deposit ጥያቄ ውድቅ ተደርጓል።`);
+                }
+            }
+
+            // Update the user object in Firebase
+            await updateUserData(userId, {
+                balance: user.balance,
+                transactions: userTxs // የተሻሻለው Transaction array
+            });
+
+            // ዝርዝሩን ማደስ
+            displayPendingTransactions();
+            
+            // ተጠቃሚው ገብቶ ከሆነ የ Dashboard ዳታውን ማደስ (ለተጠቃሚው ማሳየት)
+            if (activeUser && activeUser.identifier === user.identifier) {
+                updateDashboardData();
+            }
+        }
+
+        // Display all user investments for admin control
+        async function displayUserInvestmentsForAdmin() {
+            if (!isAdmin) return;
+            adminInvestmentList.innerHTML = '<p style="text-align: center; color: #555;">Loading...</p>';
+            try {
+                const allUsers = await getAllUsersData();
+                let invHtml = '';
+                const allInvestments = [];
+
+                // Collect all investments from all users
+                Object.keys(allUsers).forEach(userId => {
+                    const user = allUsers[userId];
+                    const investmentsArray = Array.isArray(user.investments) ? user.investments : (user.investments ? Object.values(user.investments) : []);
+                    
+                    investmentsArray.forEach(inv => {
+                        allInvestments.push({
+                            ...inv,
+                            userName: user.name,
+                            userId: user.identifier
+                        });
+                    });
+                });
+                
+                // Sort by newest first
+                allInvestments.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+
+                allInvestments.forEach(inv => {
+                    let actionButton = '';
+                    const daysLeft = inv.daysLeft || 0;
+                    const statusColor = daysLeft > 0 ? '#387c38' : '#f44336';
+                    const daysToResume = inv.daysLeft < 0 ? `(Resumes in ${Math.abs(daysLeft)} days)` : ''; // Only if negative (paused)
+
+                    if (daysLeft <= 0) {
+                         // Investment is ended or completed. No action needed for now.
+                         actionButton = `<span class="investment-ended">Completed</span>`;
+                         invHtml += `
+                            <div class="admin-investment-item" style="border-left: 5px solid ${statusColor};">
+                                <div class="admin-investment-info">
+                                    <p><strong>ዕቅድ:</strong> ${inv.name} | <strong>መጠን:</strong> ${inv.amount.toFixed(2)} ETB</p>
+                                    <p><strong>ተጠቃሚ:</strong> ${inv.userName} (${inv.userId})</p>
+                                    <p><strong>ቀሪ ቀናት (Days Left):</strong> <span style="font-weight: bold; color: ${statusColor};">0</span> / ${inv.daysTotal} ቀናት</p>
+                                    <p><strong>የተገኘ ትርፍ (Profit Earned):</strong> ${inv.profitEarned.toFixed(2)} ETB</p>
+                                </div>
+                                <div class="admin-actions">
+                                    ${actionButton}
+                                </div>
+                            </div>
+                         `;
+                    } else { 
+                        // For active investments, show an end button
+                        actionButton = `<button class="end-investment-btn" data-user-id="${inv.userId}" data-inv-id="${inv.id}">🛑 End</button>`;
+                        invHtml += `
+                            <div class="admin-investment-item" style="border-left: 5px solid ${statusColor};">
+                                <div class="admin-investment-info">
+                                    <p><strong>ዕቅድ:</strong> ${inv.name} | <strong>መጠን:</strong> ${inv.amount.toFixed(2)} ETB</p>
+                                    <p><strong>ተጠቃሚ:</strong> ${inv.userName} (${inv.userId})</p>
+                                    <p><strong>ቀሪ ቀናት (Days Left):</strong> <span style="font-weight: bold; color: ${statusColor};">${daysLeft}</span> / ${inv.daysTotal} ቀናት ${daysToResume}</p>
+                                    <p><strong>የተገኘ ትርፍ (Profit Earned):</strong> ${inv.profitEarned.toFixed(2)} ETB</p>
+                                </div>
+                                <div class="admin-actions">
+                                    ${actionButton}
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                adminInvestmentList.innerHTML = invHtml;
+
+                // Add event listeners for the new buttons
+                document.querySelectorAll('.end-investment-btn, .resume-investment-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = this.getAttribute('data-user-id');
+                        const invId = this.getAttribute('data-inv-id');
+                        // Determine action based on class
+                        const action = this.classList.contains('end-investment-btn') ? 'end' : 'resume';
+                        handleAdminInvestmentAction(userId, invId, action);
+                    });
+                });
+
+            } catch (error) {
+                console.error("Error fetching admin investments:", error);
+                adminInvestmentList.innerHTML = '<p style="text-align: center; color: #f44336;">መረጃውን በማምጣት ላይ ስህተት ተፈጥሯል።</p>';
+            }
+        }
+
+        // Admin function to manage user investments
+        async function handleAdminInvestmentAction(userId, invId, action) {
+            if (!isAdmin) return;
+            const user = await getUserData(userId);
+            if (!user) {
+                alert("⚠️ ተጠቃሚው አልተገኘም።");
+                return;
+            }
+
+            let investmentsArray = Array.isArray(user.investments) ? user.investments : Object.values(user.investments);
+            const invIndex = investmentsArray.findIndex(inv => inv.id === invId);
+
+            if (invIndex === -1) {
+                alert("⚠️ ኢንቨስትመንቱ አልተገኘም።");
+                displayUserInvestmentsForAdmin(); 
+                return;
+            }
+
+            const investment = investmentsArray[invIndex];
+
+            if (action === 'end') {
+                const confirmEnd = confirm(`⚠️ የ ${investment.name} ኢንቨስትመንት ለተጠቃሚ ${user.name} (${userId}) ማጠናቀቅ ይፈልጋሉ?`);
+                if (confirmEnd) {
+                    // Set daysLeft to 0 to stop further profit calculation
+                    investment.daysLeft = 0; 
+                    investmentsArray[invIndex] = investment; // Update the array
+                    
+                    await updateUserData(userId, { investments: investmentsArray });
+                    alert(`✅ የ ${investment.name} ኢንቨስትመንት በተሳካ ሁኔታ አብቅቷል።`);
+                }
+            } 
+            
+            // Refresh the admin list and user dashboard
+            displayUserInvestmentsForAdmin();
+            if (activeUser && activeUser.identifier === user.identifier) {
+                updateDashboardData();
+            }
+        }
+
+        // ********** END NEW ADMIN FUNCTIONS **********
+
+
+        // ********** 6. EVENT HANDLERS - CORE **********
+
+        // ***** 6.1. Login አያያዝ *****
         loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const identifier = document.getElementById('login-identifier').value.trim();
@@ -1171,9 +1628,9 @@
                     loginRegisterArea.style.display = 'none';
                     dashboardArea.style.display = 'none';
                     adminDashboardArea.style.display = 'block';
-                    displayPendingTransactions(); // የአድሚን ፓነልን በመረጃ መሙላት
+                    switchAdminPage('transactions'); // Use the new switch function
                     loginForm.reset();
-                }, 1000);
+                }, 500);
                 return;
             }
 
@@ -1184,10 +1641,8 @@
                 if (userData.password === password) {
                     activeUser = userData;
                     isAdmin = false;
-                    
                     loginMessage.textContent = '✅ በተሳካ ሁኔታ ገብተዋል!';
                     loginMessage.classList.add('success');
-                    
                     setTimeout(() => {
                         loginRegisterArea.style.display = 'none';
                         dashboardArea.style.display = 'block';
@@ -1195,7 +1650,7 @@
                         updateDashboardData(); // ዳሽቦርዱን በመረጃ ያዘምናል
                         switchDashboardPage('home'); // ወደ Home ገጽ ይወስዳል
                         loginForm.reset();
-                    }, 1000);
+                    }, 500);
                 } else {
                     loginMessage.textContent = '⚠️ ስልክ ቁጥር ወይም የይለፍ ቃል የተሳሳተ ነው!';
                     loginMessage.classList.add('error');
@@ -1206,7 +1661,8 @@
             }
         });
 
-        // ***** 5.2. Register አያያዝ *****
+
+        // ***** 6.2. Register አያያዝ *****
         registerForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const name = document.getElementById('register-name').value.trim();
@@ -1214,62 +1670,71 @@
             const password = document.getElementById('register-password').value;
             const confirmPassword = document.getElementById('register-confirm-password').value;
             const referralCode = document.getElementById('register-referral').value.trim();
+
             registerMessage.textContent = '';
             registerMessage.classList.remove('success', 'error');
 
             if (password !== confirmPassword) {
-                registerMessage.textContent = '⚠️ የይለፍ ቃሎቹ አይመሳሰሉም!';
+                registerMessage.textContent = '⚠️ ያስገቡት የይለፍ ቃል አይመሳሰልም!';
                 registerMessage.classList.add('error');
                 return;
             }
-            
-            // Check if phone number already exists in DB
+            if (password.length < 6) {
+                registerMessage.textContent = '⚠️ የይለፍ ቃል ቢያንስ 6 ፊደሎች መሆን አለበት!';
+                registerMessage.classList.add('error');
+                return;
+            }
+            if (!/^\d+$/.test(phone)) {
+                 registerMessage.textContent = '⚠️ ስልክ ቁጥርዎ ትክክል አይደለም።';
+                 registerMessage.classList.add('error');
+                 return;
+            }
+
             const existingUser = await getUserData(phone);
             if (existingUser) {
-                registerMessage.textContent = '⚠️ ይኸው ስልክ ቁጥር ቀደም ብሎ ተመዝግቧል። Login ያድርጉ።';
+                registerMessage.textContent = '⚠️ ይህ ስልክ ቁጥር አስቀድሞ ተመዝግቧል!';
                 registerMessage.classList.add('error');
                 return;
             }
 
-            // የሪፈራል ኮዱን ማረጋገጫ (ካስፈለገ)
-            let referredBy = null;
+            // Check if referral code exists
+            let referrer = null;
             if (referralCode) {
-                const allUsers = await getAllUsersData();
-                const referringUserKey = Object.keys(allUsers).find(key => allUsers[key].referralCode === referralCode);
-                
-                if (referringUserKey) {
-                    referredBy = referringUserKey; // Key is the phone number (identifier)
-                } else {
-                    registerMessage.textContent = '⚠️ የሪፈራል ኮዱ የተሳሳተ ነው!';
-                    registerMessage.classList.add('error');
-                    return;
+                referrer = await getUserData(referralCode);
+                if (!referrer) {
+                    // Warning but allow registration
+                    alert("⚠️ ያስገቡት Referral Code አልተገኘም! ያለ Referral Code ይቀጥላሉ።");
                 }
             }
-
-            const newUser = {
-                name: name,
-                identifier: phone,
-                password: password,
-                balance: 50.00, // 50 ETB Bonus
-                totalInvested: 0.00,
-                referralCode: generateReferralCode(phone),
-                teamSize: 0,
-                transactions: [
-                    { id: 'tx_bonus_' + Date.now(), type: "Signup Bonus", amount: 50.00, date: new Date().toISOString().slice(0, 10), status: "Completed" }
-                ],
-                investments: [],
-                referredBy: referredBy, // ሪፈር ያደረገው ሰው ID
-                lastProfitDate: new Date().toISOString().slice(0, 10)
-            };
             
             try {
+                // Create new user object
+                const newUser = {
+                    name: name,
+                    identifier: phone, // Using phone number as the unique identifier
+                    password: password, 
+                    referralCode: phone, // User's own referral code is their phone number
+                    referredBy: referrer ? referrer.identifier : null,
+                    balance: 50.00, // Initial sign-up bonus
+                    totalInvested: 0.00,
+                    transactions: [{ // Initial bonus transaction
+                        id: 'tx_bonus_' + Date.now(),
+                        type: "Sign-up Bonus",
+                        amount: 50.00,
+                        date: new Date().toISOString().slice(0, 10),
+                        status: "Completed"
+                    }],
+                    investments: [],
+                    lastProfitCalculated: new Date().toISOString(), // Initialize profit calculation date
+                    registrationDate: new Date().toISOString()
+                };
+
                 // Save new user to Firebase using phone number as the key
                 await usersRef.child(phone).set(newUser);
-
                 registerMessage.textContent = '✅ የምዝገባ ሂደቱ ተሳክቷል። አሁን Login ማድረግ ይችላሉ!';
                 registerMessage.classList.add('success');
                 registerForm.reset();
-                
+
                 // ወደ Login ገጽ መቀየር
                 setTimeout(() => switchAuthTab('login'), 2000);
 
@@ -1280,10 +1745,9 @@
             }
         });
 
+        // ********** 7. EVENT HANDLERS - DASHBOARD **********
 
-        // ********** 6. EVENT HANDLERS - DASHBOARD **********
-
-        // ***** 6.1. Deposit አያያዝ *****
+        // ***** 7.1. Deposit አያያዝ *****
         depositBtn.addEventListener('click', () => {
             mainHomeContentDiv.style.display = 'none';
             depositPageContentDiv.style.display = 'block';
@@ -1304,6 +1768,7 @@
 
             const amount = parseFloat(depositAmountInput.value);
             const txId = transactionIdInput.value.trim();
+
             depositFormMessage.textContent = '';
             depositFormMessage.classList.remove('success', 'error');
 
@@ -1312,48 +1777,34 @@
                 depositFormMessage.classList.add('error');
                 return;
             }
-            if (txId.length < 5) {
-                depositFormMessage.textContent = '⚠️ Transaction ID ቢያንስ 5 ፊደላት መሆን አለበት!';
-                depositFormMessage.classList.add('error');
-                return;
-            }
 
-            // Check if TxId is already used (by checking all users in DB)
-            const allUsers = await getAllUsersData();
-            const allUsersArray = Object.values(allUsers);
-            const isTxIdUsed = allUsersArray.some(user => 
-                Array.isArray(user.transactions) && user.transactions.some(t => t.id === txId && t.type === "Deposit" && t.status !== "Rejected")
-            );
-
-            if (isTxIdUsed) {
-                depositFormMessage.textContent = '⚠️ ይህ Transaction ID ቀደም ብሎ ጥቅም ላይ ውሏል!';
-                depositFormMessage.classList.add('error');
-                return;
-            }
-
+            // Create new pending deposit transaction
             const newTx = {
-                id: txId,
+                id: txId, // Using the user's provided transaction ID
                 type: "Deposit",
                 amount: amount,
                 date: new Date().toISOString().slice(0, 10),
                 status: "Pending",
-                user: activeUser.identifier // for admin
+                user: activeUser.identifier,
+                details: `Transaction ID: ${txId}`
             };
-            
-            // Add to activeUser's transactions array (Handle DB's lack of empty array)
+
+            // Add to activeUser's transactions array
             let transactionsArray = Array.isArray(activeUser.transactions) ? activeUser.transactions : (activeUser.transactions ? Object.values(activeUser.transactions) : []);
             transactionsArray.push(newTx);
             activeUser.transactions = transactionsArray;
 
             // Update Firebase
-            await updateUserData(activeUser.identifier, {transactions: activeUser.transactions});
+            await updateUserData(activeUser.identifier, {
+                transactions: activeUser.transactions 
+            });
 
-            depositFormMessage.textContent = `✅ የ ${amount.toFixed(2)} ETB Deposit ጥያቄዎ በተሳካ ሁኔታ ገብቷል። እባክዎን የአድሚን ማረጋገጫ ይጠብቁ።`;
+            depositFormMessage.textContent = `✅ የ ${amount.toFixed(2)} ETB Deposit ጥያቄ ገብቷል። የአድሚን ማረጋገጫ ይጠብቁ።`;
             depositFormMessage.classList.add('success');
             depositForm.reset();
         });
 
-        // ***** 6.2. Withdraw አያያዝ *****
+        // ***** 7.2. Withdraw አያያዝ *****
         withdrawBtn.addEventListener('click', () => {
             mainHomeContentDiv.style.display = 'none';
             depositPageContentDiv.style.display = 'none';
@@ -1385,6 +1836,7 @@
                 withdrawFormMessage.classList.add('error');
                 return;
             }
+
             if (amount > activeUser.balance) {
                 withdrawFormMessage.textContent = `⚠️ በቂ ቀሪ ሂሳብ የሎትም! (${activeUser.balance.toFixed(2)} ETB ነው ያለው)`;
                 withdrawFormMessage.classList.add('error');
@@ -1417,81 +1869,90 @@
                 transactions: activeUser.transactions
             });
 
-            updateDashboardData(); // ቀሪ ሂሳብን ወዲያውኑ ማዘመን
+            // Update the UI
+            updateDashboardData();
 
-            withdrawFormMessage.textContent = `✅ የ ${amount.toFixed(2)} ETB Withdraw ጥያቄዎ በተሳካ ሁኔታ ገብቷል። እባክዎን የአድሚን ማረጋገጫ ይጠብቁ።`;
+            withdrawFormMessage.textContent = `✅ የ ${amount.toFixed(2)} ETB Withdraw ጥያቄ ገብቷል። የአድሚን ማረጋገጫ ይጠብቁ።`;
             withdrawFormMessage.classList.add('success');
             withdrawForm.reset();
         });
 
-
-        // ***** 6.3. Investment አያያዝ *****
+        // ***** 7.3. Investment Plan Selection *****
         planButtons.forEach(button => {
             button.addEventListener('click', function() {
+                // Read plan data from data attributes
                 selectedPlan = {
                     name: this.getAttribute('data-plan'),
-                    min: parseInt(this.getAttribute('data-min')),
-                    max: parseInt(this.getAttribute('data-max')),
-                    rate: parseInt(this.getAttribute('data-rate')),
+                    min: parseFloat(this.getAttribute('data-min')),
+                    max: parseFloat(this.getAttribute('data-max')),
+                    rate: parseFloat(this.getAttribute('data-rate')),
                     days: parseInt(this.getAttribute('data-days'))
                 };
 
+                // Update purchase form UI
                 selectedPlanNameDisplay.textContent = selectedPlan.name;
-                planInfoDisplay.textContent = `መጠን: ${selectedPlan.min} - ${selectedPlan.max} ETB | ዕለታዊ ትርፍ: ${selectedPlan.rate}% | ለ ${selectedPlan.days} ቀናት`;
+                currentBalancePurchaseDisplay.textContent = activeUser.balance.toFixed(2);
+                planInfoDisplay.innerHTML = `
+                    መጠን: <strong>ETB ${selectedPlan.min} - ${selectedPlan.max.toLocaleString()}</strong> |
+                    ዕለታዊ ትርፍ: <strong>${selectedPlan.rate}%</strong> |
+                    ጊዜ: <strong>${selectedPlan.days} ቀናት</strong>
+                `;
+                
+                // Set input constraints
                 purchaseAmountInput.min = selectedPlan.min;
                 purchaseAmountInput.max = selectedPlan.max;
-                purchaseAmountInput.value = selectedPlan.min;
-                purchaseFormMessage.textContent = '';
+                purchaseAmountInput.value = selectedPlan.min; // Default to min amount
 
-                planGridList.style.display = 'none';
+                // Hide plans, show form
+                document.querySelector('.investment-plans h3').style.display = 'none';
+                document.querySelector('.plan-grid').style.display = 'none';
                 purchaseFormBox.style.display = 'block';
+                purchaseFormMessage.textContent = '';
             });
         });
 
         backToPlansBtn.addEventListener('click', () => {
+            document.querySelector('.investment-plans h3').style.display = 'block';
+            document.querySelector('.plan-grid').style.display = 'flex';
             purchaseFormBox.style.display = 'none';
-            planGridList.style.display = 'flex';
-            selectedPlan = null;
         });
 
+        // ***** 7.4. Investment Purchase *****
         purchaseForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            if (!activeUser || !selectedPlan) return;
+            if (!activeUser || !selectedPlan) return logout();
 
             const amount = parseFloat(purchaseAmountInput.value);
             purchaseFormMessage.textContent = '';
             purchaseFormMessage.classList.remove('success', 'error');
 
-            if (amount < selectedPlan.min || amount > selectedPlan.max) {
-                purchaseFormMessage.textContent = `⚠️ የገባው መጠን ለ ${selectedPlan.name} ዕቅድ ትክክለኛ አይደለም (${selectedPlan.min} - ${selectedPlan.max} ETB)።`;
-                purchaseFormMessage.classList.add('error');
-                return;
-            }
-            if (amount > activeUser.balance) {
-                purchaseFormMessage.textContent = `⚠️ በቂ ቀሪ ሂሳብ (${activeUser.balance.toFixed(2)} ETB) የሎትም።`;
+            if (amount < selectedPlan.min || amount > selectedPlan.max || amount > activeUser.balance) {
+                purchaseFormMessage.textContent = `⚠️ ያስገቡት መጠን ከዕቅዱ ገደብ ውጪ ወይም ከቀሪ ሂሳብዎ በላይ ነው። (Min: ${selectedPlan.min}, Max: ${selectedPlan.max}, Balance: ${activeUser.balance.toFixed(2)})`;
                 purchaseFormMessage.classList.add('error');
                 return;
             }
 
-            // 1. Transaction Create
+            // 1. ገንዘቡን ከመለያው ላይ መቀነስ
             activeUser.balance -= amount;
+
+            // 2. ጠቅላላ ኢንቨስትመንት መጨመር
             activeUser.totalInvested = (activeUser.totalInvested || 0) + amount;
 
-            const newTx = {
-                id: 'tx_invest_' + Date.now(),
+            // 3. Transaction መፍጠር
+            const purchaseTx = {
+                id: 'tx_purchase_' + Date.now(),
                 type: "Investment Purchase",
-                amount: amount,
+                amount: -amount,
                 date: new Date().toISOString().slice(0, 10),
                 status: "Completed",
-                details: `${selectedPlan.name} Plan`
+                details: `Purchased ${selectedPlan.name} Plan`
             };
-            
+
             let transactionsArray = Array.isArray(activeUser.transactions) ? activeUser.transactions : (activeUser.transactions ? Object.values(activeUser.transactions) : []);
-            transactionsArray.push(newTx);
+            transactionsArray.push(purchaseTx);
             activeUser.transactions = transactionsArray;
 
-
-            // 2. Investment Create
+            // 4. አዲስ Investment መፍጠር
             const newInvestment = {
                 id: 'inv_' + Date.now(),
                 name: selectedPlan.name,
@@ -1506,19 +1967,17 @@
             let investmentsArray = Array.isArray(activeUser.investments) ? activeUser.investments : (activeUser.investments ? Object.values(activeUser.investments) : []);
             investmentsArray.push(newInvestment);
             activeUser.investments = investmentsArray;
-
             
-            // 3. Referral Bonus (80 ETB) Check - only for the first investment
+            // 5. Referral Bonus (80 ETB) Check - only for the first investment
             if (activeUser.referredBy) {
-                const isFirstInvestment = investmentsArray.filter(i => i.type === "Investment Purchase").length === 1;
-                
-                if (isFirstInvestment) {
+                // Simplified check: check if the new investments array size is 1 (excluding the 50 ETB bonus)
+                if (investmentsArray.length === 1) { 
                     const referrerIdentifier = activeUser.referredBy;
                     const referrer = await getUserData(referrerIdentifier);
-                    
+
                     if (referrer) {
                         const bonusAmount = 80.00;
-                        referrer.balance += bonusAmount;
+                        referrer.balance = (referrer.balance || 0) + bonusAmount;
                         
                         const bonusTx = {
                             id: 'tx_referral_bonus_' + Date.now(),
@@ -1528,21 +1987,25 @@
                             status: "Completed",
                             details: `Bonus from ${activeUser.name} (${activeUser.identifier}) first investment`
                         };
-                        
+
                         let referrerTxs = Array.isArray(referrer.transactions) ? referrer.transactions : (referrer.transactions ? Object.values(referrer.transactions) : []);
                         referrerTxs.push(bonusTx);
                         referrer.transactions = referrerTxs;
                         
-                        // Update Referrer in Firebase
+                        // Update referrer data in Firebase
                         await updateUserData(referrerIdentifier, {
                             balance: referrer.balance,
                             transactions: referrer.transactions
                         });
+                        
+                        // Alert for referrer bonus
+                        alert(`🎁 ለ Referrerዎ (${referrer.name}) 80 ETB Bonus ገብቷል!`);
                     }
                 }
             }
-            
-            // 4. Update Active User in Firebase
+
+
+            // 6. Update Firebase for the current user
             await updateUserData(activeUser.identifier, {
                 balance: activeUser.balance,
                 totalInvested: activeUser.totalInvested,
@@ -1550,273 +2013,174 @@
                 investments: activeUser.investments
             });
 
-            purchaseFormMessage.textContent = `✅ የ ${amount.toFixed(2)} ETB ${selectedPlan.name} ኢንቨስትመንት በተሳካ ሁኔታ ገዝተዋል። ዕለታዊ ትርፍዎ አሁን ይጀምራል!`;
+            // 7. UI Update
+            updateDashboardData(); 
+
+            purchaseFormMessage.textContent = `✅ የ ${selectedPlan.name} ዕቅድ ግዢ በተሳካ ሁኔታ ተጠናቋል!`;
             purchaseFormMessage.classList.add('success');
-            
-            updateDashboardData(); // Update UI
-            
+
+            // Hide form and show plans again after 2 seconds
             setTimeout(() => {
+                document.querySelector('.investment-plans h3').style.display = 'block';
+                document.querySelector('.plan-grid').style.display = 'flex';
                 purchaseFormBox.style.display = 'none';
-                planGridList.style.display = 'flex';
-                selectedPlan = null;
-            }, 3000);
+            }, 2000);
         });
+        
+        // ***** 7.5. Referral Link Copying (NEW) *****
+        copyReferralLinkBtn.addEventListener('click', async () => {
+            if (referralLinkDisplay) {
+                // Select the text field
+                referralLinkDisplay.select();
+                referralLinkDisplay.setSelectionRange(0, 99999); // For mobile devices
 
-
-        // ***** 6.4. Account ገጽ ተግባራት *****
-
-        // A. የይለፍ ቃል ቀይር
-        changePasswordBtn.addEventListener('click', async () => {
-            if (!activeUser) return;
-            // ... (የድሮ የይለፍ ቃል ቼክ እና አዲስ የይለፍ ቃል ማስገቢያ logic ተመሳሳይ ነው) ...
-            let oldPassword;
-            let newPassword;
-            let confirmPassword;
-            let attempts = 0;
-            
-            while (attempts < 3) {
-                oldPassword = prompt("የድሮ የይለፍ ቃልዎን ያስገቡ:");
-                if (oldPassword === null) { alert("የይለፍ ቃል መቀየር ተቋርጧል።"); return; }
-                if (oldPassword !== activeUser.password) { alert("የተሳሳተ የይለፍ ቃል! እንደገና ይሞክሩ።"); attempts++; continue; }
-
-                newPassword = prompt("አዲሱን የይለፍ ቃልዎን ያስገቡ (ቢያንስ 6 ፊደል):");
-                if (newPassword === null) { alert("የይለፍ ቃል መቀየር ተቋርጧል።"); return; }
-                if (newPassword.length < 6) { alert("የይለፍ ቃልዎ ቢያንስ 6 ፊደላት መሆን አለበት።"); attempts++; continue; }
-                if (newPassword === oldPassword) { alert("አዲሱ የይለፍ ቃልዎ ከድሮው የይለፍ ቃል ጋር መመሳሰል የለበትም።"); attempts++; continue; }
-
-                confirmPassword = prompt("አዲሱን የይለፍ ቃልዎን እንደገና በማስገባት ያረጋግጡ:");
-                if (confirmPassword === null) { alert("የይለፍ ቃል መቀየር ተቋርጧል።"); return; }
-                
-                if (newPassword === confirmPassword) {
-                    // Update Firebase
-                    activeUser.password = newPassword;
-                    await updateUserData(activeUser.identifier, { password: newPassword });
-
-                    alert("✅ የይለፍ ቃልዎ በተሳካ ሁኔታ ተቀይሯል። አዲሱን ይለፍ ቃል በመጠቀም ወደፊት ይግቡ።");
-                    return;
-                } else {
-                    alert("የይለፍ ቃሎቹ አይመሳሰሉም! እንደገና ይሞክሩ።");
-                    attempts++;
+                try {
+                    await navigator.clipboard.writeText(referralLinkDisplay.value);
+                    alert("✅ Referral Link በተሳካ ሁኔታ ኮፒ ተደርጓል!");
+                } catch (err) {
+                    // Fallback for older browsers
+                    console.error('Failed to copy text: ', err);
+                    try {
+                        document.execCommand('copy');
+                        alert("✅ Referral Link ኮፒ ተደርጓል።");
+                    } catch (err2) {
+                        alert("⚠️ ኮፒ ማድረግ አልተቻለም። እባክዎ ሊንኩን እራስዎ ይቅዱ።");
+                    }
                 }
             }
-            alert("⚠️ የይለፍ ቃልዎን በተደጋጋሚ መለወጥ አልቻሉም። በኋላ ይሞክሩ።");
         });
 
-        // B. የዝውውር ታሪክ (Transaction History) አሳይ
-        transactionHistoryBtn.addEventListener('click', () => {
-            if (!activeUser) return;
-            let historyHTML = '<h4>የዝውውር ታሪክ</h4>';
+        // ********** 8. EVENT HANDLERS - NAVIGATION **********
 
-            if (!activeUser.transactions || activeUser.transactions.length === 0) {
-                historyHTML += '<p>ምንም የዝውውር ታሪክ የለም።</p>';
-            } else {
-                // Transactions arrayን ከ Object.values የመጣ ከሆነ ወደ Array መቀየር
-                const transactionsArray = Array.isArray(activeUser.transactions) ? activeUser.transactions : Object.values(activeUser.transactions);
-                
-                // በአዲስ ቀን መጀመሪያ እንዲሆን መደርደር
-                transactionsArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+        // Utility to switch between dashboard pages
+        function switchDashboardPage(pageId) {
+            allContentSections.forEach(section => section.classList.remove('active'));
+            allNavButtons.forEach(button => button.classList.remove('nav-active'));
 
-                historyHTML += '<table style="width:100%; border-collapse: collapse; margin-top: 15px;">';
-                historyHTML += '<thead><tr style="background-color: #f2f2f2; text-align: left;"><th>ቀን</th><th>ዓይነት</th><th>መጠን</th><th>ሁኔታ</th></tr></thead><tbody>';
-
-                transactionsArray.forEach(tx => {
-                    const statusClass = `status-${tx.status}`;
-                    const sign = tx.type.includes('Deposit') || tx.type.includes('Bonus') || tx.type.includes('Profit') ? '+' : (tx.type.includes('Withdraw') ? '-' : '');
-                    const color = sign === '+' ? '#387c38' : (sign === '-' ? '#f44336' : '#555');
-
-                    historyHTML += `
-                        <tr>
-                            <td style="border: 1px solid #ddd; padding: 8px;">${tx.date}</td>
-                            <td style="border: 1px solid #ddd; padding: 8px;">${tx.type}</td>
-                            <td style="border: 1px solid #ddd; padding: 8px; font-weight: bold; color: ${color};">${sign}${tx.amount.toFixed(2)} ETB</td>
-                            <td style="border: 1px solid #ddd; padding: 8px;" class="${statusClass}">${tx.status}</td>
-                        </tr>
-                    `;
-                });
-
-                historyHTML += '</tbody></table>';
+            if (pageId === 'home') {
+                homeContent.classList.add('active');
+                navHome.classList.add('nav-active');
+                // Ensure main home content is visible when switching back
+                mainHomeContentDiv.style.display = 'block'; 
+                depositPageContentDiv.style.display = 'none';
+                withdrawPageContentDiv.style.display = 'none';
+            } else if (pageId === 'investment') {
+                investmentContent.classList.add('active');
+                navInvestment.classList.add('nav-active');
+                // Reset to plans view
+                document.querySelector('.investment-plans h3').style.display = 'block';
+                document.querySelector('.plan-grid').style.display = 'flex';
+                purchaseFormBox.style.display = 'none';
+            } else if (pageId === 'customer-service') {
+                customerServiceContent.classList.add('active');
+                navCustomerService.classList.add('nav-active');
+            } else if (pageId === 'account') {
+                accountContent.classList.add('active');
+                navAccount.classList.add('nav-active');
+                // Ensure sub-pages are hidden when returning to main account
+                historyContent.style.display = 'none';
+                changePasswordContent.style.display = 'none';
+            } else if (pageId === 'team') {
+                teamContent.classList.add('active');
+                navTeam.classList.add('nav-active');
             }
-
-            historyMessage.innerHTML = historyHTML;
-        });
-        
-        // C. Customer Service Button
-        document.getElementById('customer-service-btn').addEventListener('click', () => {
-            const telegramUsername = 'Lucia_ipo';
-            window.open(`https://t.me/${telegramUsername}`, '_blank');
-        });
-
-        // D. Logout
-        function logout() {
-            activeUser = null;
-            isAdmin = false;
-            loginRegisterArea.style.display = 'flex';
-            dashboardArea.style.display = 'none';
-            adminDashboardArea.style.display = 'none';
-            loginForm.reset();
-            switchAuthTab('login');
         }
-        logoutBtnAccount.addEventListener('click', logout);
-        adminLogoutBtn.addEventListener('click', logout);
-        
-        // ***** 6.5. My Team ገጽ ተግባራት *****
-        copyCodeBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(referralCodeDisplay.textContent).then(() => {
-                alert('✅ Referral Code በተሳካ ሁኔታ ተቀድቷል።');
-            }, () => {
-                alert('⚠️ Referral Code መቅዳት አልተቻለም። በእጅ ይቅዱት።');
-            });
-        });
 
-        copyLinkBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(referralLinkDisplay.textContent).then(() => {
-                alert('✅ የመመዝገቢያ ሊንክ በተሳካ ሁኔታ ተቀድቷል።');
-            }, () => {
-                alert('⚠️ የመመዝገቢያ ሊንክ መቅዳት አልተቻለም። በእጅ ይቅዱት።');
-            });
-        });
+        // Login/Register Tab Clicks
+        loginTab.addEventListener('click', () => switchAuthTab('login'));
+        registerTab.addEventListener('click', () => switchAuthTab('register'));
+        goToRegisterLink.addEventListener('click', (e) => { e.preventDefault(); switchAuthTab('register'); });
+        goToLoginLink.addEventListener('click', (e) => { e.preventDefault(); switchAuthTab('login'); });
 
-        // ********** 7. EVENT HANDLERS - NAVIGATION **********
+        // Dashboard Navigation Handlers
         navHome.addEventListener('click', () => switchDashboardPage('home'));
         navInvestment.addEventListener('click', () => switchDashboardPage('investment'));
+        navCustomerService.addEventListener('click', () => switchDashboardPage('customer-service'));
         navAccount.addEventListener('click', () => switchDashboardPage('account'));
         navTeam.addEventListener('click', () => switchDashboardPage('team'));
         
-        goToRegisterLink.addEventListener('click', (e) => { e.preventDefault(); switchAuthTab('register'); });
-        goToLoginLink.addEventListener('click', (e) => { e.preventDefault(); switchAuthTab('login'); });
-        loginTab.addEventListener('click', () => switchAuthTab('login'));
-        registerTab.addEventListener('click', () => switchAuthTab('register'));
-
-        // ********** 8. ADMIN PANEL FUNCTIONALITY **********
+        // Account Page Button Handlers
+        transactionHistoryBtn.addEventListener('click', () => {
+            accountContent.classList.remove('active');
+            historyContent.classList.add('active');
+            historyContent.style.display = 'block';
+            displayTransactionHistory();
+        });
+        backToAccountFromHistoryBtn.addEventListener('click', () => {
+            historyContent.classList.remove('active');
+            historyContent.style.display = 'none';
+            accountContent.classList.add('active');
+        });
         
-        // የ Admin Panel ላይ ያሉ Pending Transactions መረጃዎችን ከ Firebase ያወጣል
-        async function displayPendingTransactions() {
-            adminMessage.textContent = '';
-            pendingTransactionsList.innerHTML = '<p style="text-align: center; color: #555;">Loading...</p>';
+        changePasswordBtn.addEventListener('click', () => {
+            accountContent.classList.remove('active');
+            changePasswordContent.classList.add('active');
+            changePasswordContent.style.display = 'block';
+            changePasswordMessage.textContent = '';
+            changePasswordForm.reset();
+        });
+        backToAccountFromPasswordBtn.addEventListener('click', () => {
+            changePasswordContent.classList.remove('active');
+            changePasswordContent.style.display = 'none';
+            accountContent.classList.add('active');
+        });
 
-            try {
-                const allUsers = await getAllUsersData();
-                const allUsersArray = Object.values(allUsers);
-                let pendingTxs = [];
+        logoutBtnAccount.addEventListener('click', logout);
 
-                allUsersArray.forEach(user => {
-                    const userTxs = Array.isArray(user.transactions) ? user.transactions : (user.transactions ? Object.values(user.transactions) : []);
-                    const userPending = userTxs.filter(t => t.status === "Pending");
-                    
-                    userPending.forEach(tx => {
-                        pendingTxs.push({
-                            ...tx,
-                            userName: user.name,
-                            userId: user.identifier // The user's phone number
-                        });
-                    });
-                });
-                
-                pendingTransactionsList.innerHTML = ''; // Clear existing list
+        // Change Password Form Handler
+        changePasswordForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (!activeUser) return logout();
 
-                if (pendingTxs.length === 0) {
-                    pendingTransactionsList.innerHTML = '<p style="text-align: center; color: #555;">ምንም በመጠባበቅ ላይ ያለ ጥያቄ የለም።</p>';
-                    return;
-                }
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmNewPassword = document.getElementById('confirm-new-password').value;
 
-                pendingTxs.forEach(tx => {
-                    const info = tx.type === 'Deposit' 
-                        ? `Transaction ID: ${tx.id}` 
-                        : `Bank: ${tx.bankName} | Account: ${tx.accountNumber} | Name: ${tx.fullName}`;
+            changePasswordMessage.textContent = '';
+            changePasswordMessage.classList.remove('success', 'error');
 
-                    const txHtml = `
-                        <div class="admin-transaction-item">
-                            <div class="admin-transaction-info">
-                                <p style="font-size: 16px; margin-bottom: 5px;"><strong>${tx.type} - ${tx.amount.toFixed(2)} ETB</strong></p>
-                                <p>ተጠቃሚ: ${tx.userName} (${tx.userId})</p>
-                                <p style="color: #777; font-size: 12px;">${info}</p>
-                                <p style="font-size: 12px;">ቀን: ${tx.date}</p>
-                            </div>
-                            <div class="admin-actions">
-                                <button class="approve-btn" data-tx-id="${tx.id}" data-user-id="${tx.userId}" data-tx-type="${tx.type}" data-tx-amount="${tx.amount}">✅ አፅድቅ (Approve)</button>
-                                <button class="reject-btn" data-tx-id="${tx.id}" data-user-id="${tx.userId}" data-tx-type="${tx.type}" data-tx-amount="${tx.amount}">❌ ውድቅ አድርግ (Reject)</button>
-                            </div>
-                        </div>
-                    `;
-                    pendingTransactionsList.insertAdjacentHTML('beforeend', txHtml);
-                });
-
-                // Attach event listeners to the new buttons
-                document.querySelectorAll('.admin-actions button').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const action = this.classList.contains('approve-btn') ? 'approve' : 'reject';
-                        const txId = this.getAttribute('data-tx-id');
-                        const userId = this.getAttribute('data-user-id');
-                        const txType = this.getAttribute('data-tx-type');
-                        const txAmount = parseFloat(this.getAttribute('data-tx-amount'));
-                        
-                        handleAdminAction(txId, userId, txType, txAmount, action);
-                    });
-                });
-
-            } catch (error) {
-                console.error("Error fetching pending transactions:", error);
-                adminMessage.textContent = '⚠️ መረጃውን ከ Firebase ማውጣት አልተቻለም።';
-            }
-        }
-
-        // የ Admin Panel ላይ Approve/Reject ሲደረግ
-        async function handleAdminAction(txId, userId, txType, txAmount, action) {
-            if (!isAdmin) return;
-            
-            const user = await getUserData(userId);
-            if (!user) {
-                alert("የተጠቃሚ መረጃ አልተገኘም!");
+            if (currentPassword !== activeUser.password) {
+                changePasswordMessage.textContent = '⚠️ አሁን ያስገቡት የይለፍ ቃል የተሳሳተ ነው!';
+                changePasswordMessage.classList.add('error');
                 return;
             }
-            
-            // Transactions arrayን ከ Object.values የመጣ ከሆነ ወደ Array መቀየር
-            let userTxs = Array.isArray(user.transactions) ? user.transactions : (user.transactions ? Object.values(user.transactions) : []);
-            
-            const txIndex = userTxs.findIndex(t => t.id === txId && t.status === "Pending");
-            const transaction = userTxs[txIndex];
-
-            if (txIndex === -1) {
-                alert("ይህ ጥያቄ ወይ ተረጋግጧል ወይም ተሰርዟል።");
-                displayPendingTransactions();
+            if (newPassword !== confirmNewPassword) {
+                changePasswordMessage.textContent = '⚠️ አዲሶቹ የይለፍ ቃሎች አይመሳሰሉም!';
+                changePasswordMessage.classList.add('error');
+                return;
+            }
+            if (newPassword.length < 6) {
+                changePasswordMessage.textContent = '⚠️ አዲስ የይለፍ ቃል ቢያንስ 6 ፊደሎች መሆን አለበት!';
+                changePasswordMessage.classList.add('error');
                 return;
             }
 
-            if (action === 'approve') {
-                transaction.status = "Completed";
-                if (txType === 'Deposit') {
-                    user.balance = (user.balance || 0) + txAmount;
-                    alert(`✅ የ ${txAmount.toFixed(2)} ETB Deposit ለ ${user.name} ገቢ ተደርጓል።`);
-                } else if (txType === 'Withdraw') {
-                    // Withdraw ላይ ቀደም ብሎ ገንዘቡ ስለተቀነሰ፣ ምንም ማድረግ አይጠበቅም
-                    alert(`✅ የ ${txAmount.toFixed(2)} ETB Withdraw ጥያቄ ተፈፅሟል።`);
-                }
-            } else if (action === 'reject') {
-                transaction.status = "Rejected";
-                
-                if (txType === 'Withdraw') {
-                    // ቀደም ብሎ የተቀነሰውን ገንዘብ መመለስ
-                    user.balance = (user.balance || 0) + txAmount;
-                    alert(`❌ የ ${txAmount.toFixed(2)} ETB Withdraw ጥያቄ ውድቅ ተደርጓል። ገንዘቡ ተመልሷል።`);
-                } else if (txType === 'Deposit') {
-                    alert(`❌ የ ${txAmount.toFixed(2)} ETB Deposit ጥያቄ ውድቅ ተደርጓል።`);
-                }
-            }
-            
-            // Update the user object in Firebase
-            await updateUserData(userId, {
-                balance: user.balance,
-                transactions: userTxs // የተሻሻለው Transaction array
-            });
+            // Update password in global user object and Firebase
+            activeUser.password = newPassword;
+            const success = await updateUserData(activeUser.identifier, { password: newPassword });
 
-            // ዝርዝሩን ማደስ
-            displayPendingTransactions();
-            
-            // ተጠቃሚው ገብቶ ከሆነ የ Dashboard ዳታውን ማደስ (ለተጠቃሚው ማሳየት)
-            if (activeUser && activeUser.identifier === user.identifier) {
-                updateDashboardData();
+            if (success) {
+                changePasswordMessage.textContent = '✅ የይለፍ ቃልዎ በተሳካ ሁኔታ ተቀይሯል!';
+                changePasswordMessage.classList.add('success');
+                changePasswordForm.reset();
+                setTimeout(() => {
+                     // Go back to account page
+                    changePasswordContent.classList.remove('active');
+                    changePasswordContent.style.display = 'none';
+                    accountContent.classList.add('active');
+                }, 2000);
+            } else {
+                changePasswordMessage.textContent = '⚠️ የይለፍ ቃል መቀየር አልተሳካም። እባክዎ እንደገና ይሞክሩ።';
+                changePasswordMessage.classList.add('error');
             }
-        }
+        });
+
+        // Admin Navigation Handlers
+        adminNavTransactions.addEventListener('click', () => switchAdminPage('transactions'));
+        adminNavInvestments.addEventListener('click', () => switchAdminPage('investments'));
+
+        // Admin Logout
+        adminLogoutBtn.addEventListener('click', logout);
 
 
         // ********** 9. Initialization (ገጹ ሲከፈት) **********
@@ -1824,7 +2188,24 @@
         loginRegisterArea.style.display = 'flex';
         dashboardArea.style.display = 'none';
         adminDashboardArea.style.display = 'none';
-        purchaseFormBox.style.display = 'none'; // የ Investment ግዢ ቅጽን መደበቅ
+        
+        // Check for referral parameter in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const referralCodeFromURL = urlParams.get('ref');
+        
+        if (referralCodeFromURL) {
+            // Switch to Register tab and pre-fill
+            switchAuthTab('register'); 
+            const registerReferralInput = document.getElementById('register-referral');
+            if (registerReferralInput) {
+                registerReferralInput.value = referralCodeFromURL;
+                // ይህ ኮድ referral code መገኘቱን እና መሞላቱን ያሳያል።
+                console.log(`Referral Code Found: ${referralCodeFromURL}. Switching to Register tab.`); 
+            }
+        } else {
+            // Default to Login tab
+            switchAuthTab('login');
+        }
         
     </script>
 </body>
