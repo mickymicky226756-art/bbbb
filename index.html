@@ -395,7 +395,7 @@
         }
         #nav-home::before { content: '🏠'; }
         #nav-investment::before { content: '📈'; }
-        #nav-customer-service::before { content: '📞'; } /* <--- አዲስ የተጨመረ */
+        #nav-customer-service::before { content: '📞'; }
         #nav-account::before { content: '👤'; }
         #nav-team::before { content: '👥'; }
         
@@ -490,8 +490,6 @@
             color: white; 
         }
 
-        /* #customer-service-btn { background-color: #008CBA; } */ /* REMOVED */
-        /* #customer-service-btn:hover { background-color: #007bb5; } */ /* REMOVED */
         #transaction-history-btn { background-color: #FF9800; }
         #transaction-history-btn:hover { background-color: #e68900; }
         #change-password-btn { background-color: #387c38; }
@@ -696,7 +694,7 @@
                 <div id="withdraw-form-content">
                     <h3>💸 ገንዘብ ማውጫ (Withdraw)</h3>
                     
-                    <p style="text-align: center; color: #f44336; font-weight: bold;">ቢያንስ 100 ETB ማውጣት ይችላሉ።</p>
+                    <p style="text-align: center; color: #f44336; font-weight: bold;">ቢያንስ 100 ETB ማውጣት ይችላሉ 10% ግብር</p>
 
                     <form id="withdraw-form">
                         <div class="input-group">
@@ -766,6 +764,25 @@
                             <p class="daily-rate">ዕለታዊ ትርፍ: 9%</p>
                         </div>
                     </button>
+
+                    <button class="plan-button" id="plan-4-btn" data-plan="Advanced" data-min="8000" data-max="16000" data-rate="10" data-days="22">
+                        <h4>Plan 4: ከፍተኛ (Advanced)</h4>
+                        <div class="plan-details">
+                            <p>መጠን: <strong>ETB 8,000 - 16,000</strong></p>
+                            <p>ጊዜ: <strong>22 ቀናት</strong></p>
+                            <p class="daily-rate">ዕለታዊ ትርፍ: 10%</p>
+                        </div>
+                    </button>
+
+                    <button class="plan-button" id="plan-5-btn" data-plan="VIP" data-min="18000" data-max="100000000" data-rate="11" data-days="33">
+                        <h4>Plan 5: ቪ.አይ.ፒ (VIP)</h4>
+                        <div class="plan-details">
+                            <p>መጠን: <strong>ETB 18,000+</strong></p>
+                            <p>ጊዜ: <strong>33 ቀናት</strong></p>
+                            <p class="daily-rate">ዕለታዊ ትርፍ: 11%</p>
+                        </div>
+                    </button>
+
                 </div>
                 
                 <div class="investment-list-display" id="investment-list-display">
@@ -807,7 +824,7 @@
                 <button id="copy-referral-link-btn" class="submit-btn" type="button" style="width: 100%; background-color: #008CBA; padding: 10px; font-size: 15px;">🔗 Referral Link ኮፒ አድርግ</button>
             </div>
             <h4 style="color: #1e5a2c; margin-top: 30px;">የቡድን የትርፍ ድርሻ መረጃ</h4>
-            <p>ከቡድንዎ ኢንቨስትመንት 20% ዕለታዊ ትርፍ ያገኛሉ።</p>
+            <p>ከቡድንዎ ኢንቨስትመንት 10% ዕለታዊ ትርፍ ያገኛሉ።</p>
 
         </div>
         
@@ -931,7 +948,7 @@
         // Admin Credentials
         const adminCredentials = {
             identifier: 'admin',
-            password: 'a22'
+            password: 'a226776'
         };
 
         // ********** 2. GLOBAL STATE **********
@@ -1141,7 +1158,7 @@
             });
             user.investments = investmentsArray;
 
-            // 2. Calculate referral commission (20% of the daily profit of the referee)
+            // 2. Calculate referral commission (10% of the daily profit of the referee)
             const allUsers = await getAllUsersData();
             const level1Users = Object.values(allUsers).filter(refUser => refUser.referredBy === userId);
 
@@ -1158,7 +1175,7 @@
                     });
 
                     if (refTotalDailyProfit > 0) {
-                        const commission = refTotalDailyProfit * 0.20; // 20% commission
+                        const commission = refTotalDailyProfit * 0.10; // 10% commission
                         referralCommission += commission * diffDays; // ለነዚህ ቀናት የተጠራቀመ ኮሚሽን
                     }
                 });
@@ -1240,7 +1257,7 @@
                         }
                     });
                     if (refTotalDailyProfit > 0) {
-                        currentMaxDailyProfit += refTotalDailyProfit * 0.20; // 20% commission
+                        currentMaxDailyProfit += refTotalDailyProfit * 0.10; // 10% commission
                     }
                 });
             }
@@ -1367,9 +1384,9 @@
 
         // Display all pending transactions for admin
         async function displayPendingTransactions() {
-            if (!isAdmin) return;
-            pendingTransactionsList.innerHTML = '<p style="text-align: center; color: #555;">Loading...</p>';
-            
+                if (!isAdmin) return;
+                pendingTransactionsList.innerHTML = '<p style="text-align: center; color: #555;">Loading...</p>';
+
             const allUsers = await getAllUsersData();
             const pendingTxs = [];
 
